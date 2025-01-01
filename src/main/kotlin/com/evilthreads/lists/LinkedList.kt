@@ -1,16 +1,19 @@
 package com.evilthreads.lists
 
+import com.evilthreads.Node
 import com.evilthreads.SortingType
+import com.evilthreads.iterators.MutableLinkedIterator
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.util.*
 import kotlin.NoSuchElementException
 
 class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparable<LinkedList<T>> {
-    companion object{
+    companion object {
         @NotNull
         @JvmStatic
-        fun <T: Comparable<T>> fromIterable(@NotNull values: Iterable<T>): LinkedList<T> = LinkedList<T>().apply { addAll(values) }
+        fun <T : Comparable<T>> fromIterable(@NotNull values: Iterable<T>): LinkedList<T> =
+            LinkedList<T>().apply { addAll(values) }
     }
 
     override val size: Int
@@ -18,11 +21,12 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @Nullable
     private var head: Node<T>? = null
+
     @Nullable
     private var tail: Node<T>? = null
     private var _size = 0
 
-    init{
+    init {
         values.forEach { value ->
             add(value)
         }
@@ -36,15 +40,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return list
     }
 
-    fun push(@NotNull value: T){
+    fun push(@NotNull value: T) {
         _size++
         val node = Node(value)
 
-        if(isEmpty()){
+        if (isEmpty()) {
             head = node
             tail = head
-        }
-        else{
+        } else {
             node.next = head
             head = node
         }
@@ -52,7 +55,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(NoSuchElementException::class)
-    fun pop(): T{
+    fun pop(): T {
         val value = head?.value ?: throw NoSuchElementException()
         head = head!!.next
 
@@ -67,7 +70,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     override fun isEmpty(): Boolean = head == null
 
-    override fun clear(){
+    override fun clear() {
         head = null
         tail = null
         _size = 0;
@@ -81,10 +84,10 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     override operator fun get(index: Int): T = getNode(index).value
 
     @Nullable
-    fun getOrNull(index: Int): T?{
-        try{
+    fun getOrNull(index: Int): T? {
+        try {
             return get(index)
-        }catch(e: IndexOutOfBoundsException){
+        } catch (e: IndexOutOfBoundsException) {
             return null
         }
     }
@@ -92,10 +95,10 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     @NotNull
     fun getOrElse(@NotNull defaultValue: T, index: Int): T = getOrNull(index) ?: defaultValue
 
-    override fun remove(@NotNull value: T): Boolean{
-        if(isEmpty())
+    override fun remove(@NotNull value: T): Boolean {
+        if (isEmpty())
             return false
-        if(head!!.value == value){
+        if (head!!.value == value) {
             pop()
             return true
         }
@@ -103,11 +106,11 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         var prev = head
 
         while (curr != null) {
-            if(curr.value == value){
+            if (curr.value == value) {
                 curr = curr.next
                 prev!!.next = curr?.next
 
-                if(curr == null)
+                if (curr == null)
                     tail = prev
 
                 _size--
@@ -125,14 +128,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     override fun removeAll(values: Collection<T>): Boolean {
         var removed = false
 
-        if(isEmpty())
+        if (isEmpty())
             return removed
 
         var curr = head
         var prev: Node<T>? = null
 
-        while(curr != null){
-            if(values.contains(curr.value)) {
+        while (curr != null) {
+            if (values.contains(curr.value)) {
                 curr = curr.next
                 if (prev == null)
                     head = curr
@@ -155,18 +158,18 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return removed
     }
 
-    fun removeIf(@NotNull predicate: (T) -> Boolean): Boolean{
-        if(isEmpty())
+    fun removeIf(@NotNull predicate: (T) -> Boolean): Boolean {
+        if (isEmpty())
             return false
 
         var removed = false
         var curr = head
         var prev: Node<T>? = null
 
-        while(curr != null){
-            if(predicate(curr.value)){
+        while (curr != null) {
+            if (predicate(curr.value)) {
                 curr = curr.next
-                if(prev == null)
+                if (prev == null)
                     head = curr
                 else
                     prev.next = curr
@@ -174,7 +177,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
                 _size--
                 removed = true
 
-                if(curr == null)
+                if (curr == null)
                     tail = prev
 
                 continue
@@ -189,11 +192,11 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(IndexOutOfBoundsException::class)
-    override fun removeAt(index: Int): T{
-        if(isEmpty() || index < 0 || index >= _size)
+    override fun removeAt(index: Int): T {
+        if (isEmpty() || index < 0 || index >= _size)
             throw IndexOutOfBoundsException()
 
-        if(index == 0)
+        if (index == 0)
             return pop()
 
         val curr = getNode(index - 1)
@@ -201,18 +204,18 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         curr.next = curr.next?.next
         _size--
 
-        if(curr.next == tail)
-            tail =  curr
+        if (curr.next == tail)
+            tail = curr
 
         return value
     }
 
     @Throws(IndexOutOfBoundsException::class)
-    override fun add(index: Int, value: T){
-        if(isEmpty() || index < 0 || index >= _size)
+    override fun add(index: Int, value: T) {
+        if (isEmpty() || index < 0 || index >= _size)
             throw IndexOutOfBoundsException()
 
-        if(index == 0){
+        if (index == 0) {
             push(value)
             return
         }
@@ -228,7 +231,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         _size++
         val node = Node(value)
 
-        if(isEmpty()){
+        if (isEmpty()) {
             head = node
             tail = head
 
@@ -250,17 +253,17 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @Throws(IndexOutOfBoundsException::class)
-    override fun addAll(index: Int, values: Collection<T>): Boolean{
-        if(index >= _size)
+    override fun addAll(index: Int, values: Collection<T>): Boolean {
+        if (index >= _size)
             throw IndexOutOfBoundsException()
 
         var curr: Node<T>?
         val values = values.toMutableList()
 
-        if(index == 0){
+        if (index == 0) {
             push(values.removeFirst())
             curr = getNode(0)
-        }else{
+        } else {
             curr = getNode(index - 1)
         }
 
@@ -281,14 +284,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     operator fun minus(values: Collection<T>) = removeAll(values)
 
     override fun indexOf(@NotNull value: T): Int {
-        if(isEmpty())
+        if (isEmpty())
             return -1
 
         var curr = head
         var idx = 0
 
-        while(curr != null){
-            if(curr.value == value)
+        while (curr != null) {
+            if (curr.value == value)
                 return idx
 
             idx++
@@ -301,14 +304,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     override fun lastIndexOf(@NotNull value: T): Int {
         var idx = -1
 
-        if(isEmpty())
+        if (isEmpty())
             return idx
 
         var curr = head
         var index = 0
 
-        while(curr != null){
-            if(curr.value == value)
+        while (curr != null) {
+            if (curr.value == value)
                 idx = index
 
             index++
@@ -319,22 +322,22 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     override fun containsAll(@NotNull c: Collection<T>): Boolean {
-        if(isEmpty() || c.isEmpty())
+        if (isEmpty() || c.isEmpty())
             return false
 
         c.forEach { value ->
-            if(!contains(value))
+            if (!contains(value))
                 return false
         }
 
         return true
     }
 
-    override fun contains(@NotNull value: T): Boolean{
+    override fun contains(@NotNull value: T): Boolean {
         var curr = head
 
-        while(curr != null){
-            if(curr.value == value)
+        while (curr != null) {
+            if (curr.value == value)
                 return true
 
             curr = curr.next
@@ -344,10 +347,10 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @Nullable
-    fun firstOrNull(): T?{
-        try{
+    fun firstOrNull(): T? {
+        try {
             return first()
-        }catch (e: NoSuchElementException){
+        } catch (e: NoSuchElementException) {
             return null
         }
     }
@@ -365,12 +368,12 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(NoSuchElementException::class)
-    fun last(predicate: (T) -> Boolean): T{
+    fun last(predicate: (T) -> Boolean): T {
         var curr = head
         var value: T? = null
 
-        while(curr != null){
-            if(predicate(curr.value))
+        while (curr != null) {
+            if (predicate(curr.value))
                 value = curr.value
 
             curr = curr.next
@@ -380,19 +383,19 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
 
-    override fun retainAll(values: Collection<T>): Boolean{
+    override fun retainAll(values: Collection<T>): Boolean {
         var removed = false
 
-        if(isEmpty())
+        if (isEmpty())
             return removed
 
         var curr = head
         var prev: Node<T>? = null
 
-        while(curr != null){
-            if(!values.contains(curr.value)){
+        while (curr != null) {
+            if (!values.contains(curr.value)) {
                 curr = curr.next
-                if(prev == null)
+                if (prev == null)
                     head = curr
                 else
                     prev.next = curr
@@ -412,19 +415,19 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(NoSuchElementException::class)
-    fun max(): T{
-        if(isEmpty())
+    fun max(): T {
+        if (isEmpty())
             throw NoSuchElementException()
 
         var max = head!!.value
 
-        if(head!!.next == null)
+        if (head!!.next == null)
             return max
 
         var curr = head!!.next
 
-        while(curr != null){
-            if(max.compareTo(curr.value) == -1){
+        while (curr != null) {
+            if (max.compareTo(curr.value) == -1) {
                 max = curr.value
             }
 
@@ -436,27 +439,27 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @Nullable
     fun maxOrNull(): T? {
-        try{
+        try {
             return max()
-        }catch(e: NoSuchElementException){
+        } catch (e: NoSuchElementException) {
             return null
         }
     }
 
     @NotNull
     @Throws(NoSuchElementException::class)
-    fun min(): T{
-        if(isEmpty())
+    fun min(): T {
+        if (isEmpty())
             throw NoSuchElementException()
 
-        if(head!!.next == null)
+        if (head!!.next == null)
             return head!!.value
 
         var min = head!!.value
         var curr = head!!.next
 
-        while(curr != null){
-            if(min.compareTo(curr.value) == 1){
+        while (curr != null) {
+            if (min.compareTo(curr.value) == 1) {
                 min = curr.value
             }
 
@@ -467,10 +470,10 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @Nullable
-    fun minOrNull(): T?{
-        try{
+    fun minOrNull(): T? {
+        try {
             return min()
-        }catch (e: NoSuchElementException){
+        } catch (e: NoSuchElementException) {
             return null
         }
     }
@@ -481,15 +484,15 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(IndexOutOfBoundsException::class)
-    fun slice(@NotNull range: IntRange): MutableList<T>{
-        if(range.first > range.last)
+    fun slice(@NotNull range: IntRange): MutableList<T> {
+        if (range.first > range.last)
             throw IndexOutOfBoundsException()
 
         var curr: Node<T>? = getNode(range.first)
         var idx = range.first
         val list = ArrayList<T>()
 
-        while(curr != null && idx <= range.last){
+        while (curr != null && idx <= range.last) {
             list.add(curr.value)
 
             idx++
@@ -500,14 +503,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun <S>fold(@NotNull initial: S, @NotNull operation: (S, T) -> S): S{
-        if(isEmpty())
+    fun <S> fold(@NotNull initial: S, @NotNull operation: (S, T) -> S): S {
+        if (isEmpty())
             return initial
 
         var accumulator = initial
         var curr = head
 
-        while(curr != null){
+        while (curr != null) {
             accumulator = operation(accumulator, curr.value)
 
             curr = curr.next
@@ -517,14 +520,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun mapIndexed(index: Int, transform: (T) -> T): List<T>{
-        if(isEmpty() || index < 0 || index >= _size)
+    fun mapIndexed(index: Int, transform: (T) -> T): List<T> {
+        if (isEmpty() || index < 0 || index >= _size)
             throw IndexOutOfBoundsException()
 
         val list = LinkedList<T>()
         var curr: Node<T>? = getNode(index)
 
-        while(curr != null){
+        while (curr != null) {
             curr.value = transform(curr.value)
             list.add(curr.value)
 
@@ -535,26 +538,26 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun chunked(n: Int): List<List<T>>{
+    fun chunked(n: Int): List<List<T>> {
         val chunks = ArrayList<List<T>>()
 
-        if(isEmpty() || n <= 0)
+        if (isEmpty() || n <= 0)
             return chunks
 
         val quotient = _size / n
         val remainder = _size % n
 
-        if(quotient == 0 || (quotient == 1 && remainder == 0))
+        if (quotient == 0 || (quotient == 1 && remainder == 0))
             return chunks.apply { add(this@LinkedList) }
 
-        val groups: Int = if(remainder > 0) quotient + 1 else quotient
+        val groups: Int = if (remainder > 0) quotient + 1 else quotient
         var curr = head
 
-        repeat(groups){
+        repeat(groups) {
             val chunk = ArrayList<T>(n)
             var count = 0
 
-            while(curr != null && count < n){
+            while (curr != null && count < n) {
                 chunk.add(curr!!.value)
 
                 curr = curr!!.next
@@ -568,31 +571,31 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun <S> chunked(n: Int, transform: (T) -> S): List<List<S>>{
+    fun <S> chunked(n: Int, transform: (T) -> S): List<List<S>> {
         val chunks = LinkedList<List<S>>()
 
-        if(isEmpty() || n <= 0)
+        if (isEmpty() || n <= 0)
             return chunks
 
         val quotient = _size / n
         val remainder = _size % n
 
-        if(quotient == 0 || (quotient == 1 && remainder == 0)){
+        if (quotient == 0 || (quotient == 1 && remainder == 0)) {
             val list = LinkedList<S>()
             this.forEach { value ->
                 list.add(transform(value))
             }
-            return chunks.apply { add(this@LinkedList.map{ transform(it) })  }
+            return chunks.apply { add(this@LinkedList.map { transform(it) }) }
         }
 
-        val groups: Int = if(remainder > 0) quotient + 1 else quotient
+        val groups: Int = if (remainder > 0) quotient + 1 else quotient
         var curr = head
 
-        repeat(groups){
+        repeat(groups) {
             val chunk = LinkedList<S>()
             var count = 0
 
-            while(curr != null && count < n){
+            while (curr != null && count < n) {
                 chunk.add(transform(curr!!.value))
 
                 curr = curr!!.next
@@ -605,11 +608,11 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return chunks
     }
 
-    fun any(predicate: (T) -> Boolean): Boolean{
+    fun any(predicate: (T) -> Boolean): Boolean {
         var curr = head
 
-        while(curr != null){
-            if(predicate(curr.value))
+        while (curr != null) {
+            if (predicate(curr.value))
                 return true
 
             curr = curr.next
@@ -619,10 +622,10 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun <S> zip(@NotNull values: Collection<S>): List<Pair<T,S>>{
-        val pairs = ArrayList<Pair<T,S>>()
+    fun <S> zip(@NotNull values: Collection<S>): List<Pair<T, S>> {
+        val pairs = ArrayList<Pair<T, S>>()
 
-        if(isEmpty() || values.isEmpty())
+        if (isEmpty() || values.isEmpty())
             return pairs
 
         values.forEachIndexed { index, v ->
@@ -634,12 +637,12 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun <S> flatMap(transform: (T) -> Iterable<S>): List<S>{
+    fun <S> flatMap(transform: (T) -> Iterable<S>): List<S> {
         val list = ArrayList<S>()
 
         var curr = head
 
-        while(curr != null){
+        while (curr != null) {
             val values = transform(curr.value)
             list.addAll(values)
 
@@ -650,7 +653,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun <S> map(transform: (T) -> S): List<S>{
+    fun <S> map(transform: (T) -> S): List<S> {
         var curr = head
         val list = LinkedList<S>()
 
@@ -664,15 +667,15 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun filter(@NotNull predicate: (T) -> Boolean): List<T>{
-        if(isEmpty())
+    fun filter(@NotNull predicate: (T) -> Boolean): List<T> {
+        if (isEmpty())
             return this
 
         val list = ArrayList<T>()
         var curr = head
 
-        while(curr != null){
-            if(!predicate(curr.value))
+        while (curr != null) {
+            if (!predicate(curr.value))
                 list.add(curr.value)
 
             curr = curr.next
@@ -683,22 +686,22 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(IllegalArgumentException::class)
-    fun drop(n: Int): List<T>{
-        if(n < 0)
+    fun drop(n: Int): List<T> {
+        if (n < 0)
             throw IllegalArgumentException()
 
-        if(n == 0)
+        if (n == 0)
             return this
 
         val list = ArrayList<T>()
 
-        if(isEmpty() || n >= _size)
+        if (isEmpty() || n >= _size)
             return list
 
         var curr = head
         var idx = 0
 
-        while(curr != null && idx < _size - n){
+        while (curr != null && idx < _size - n) {
             list.add(curr.value)
 
             idx++
@@ -709,19 +712,19 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun dropWhile(@NotNull predicate: (T) -> Boolean): List<T>{
+    fun dropWhile(@NotNull predicate: (T) -> Boolean): List<T> {
         val list = LinkedList<T>()
 
-        if(isEmpty())
+        if (isEmpty())
             return list
 
         var curr = head
 
-        while(curr != null && predicate(curr.value)){
+        while (curr != null && predicate(curr.value)) {
             curr = curr.next
         }
 
-        while(curr != null){
+        while (curr != null) {
             list.add(curr.value)
 
             curr = curr.next
@@ -732,22 +735,22 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     @Throws(IllegalArgumentException::class)
-    fun take(n: Int): List<T>{
-        if(n < 0)
+    fun take(n: Int): List<T> {
+        if (n < 0)
             throw IllegalArgumentException()
 
-        if(isEmpty() || n >= _size - 1)
+        if (isEmpty() || n >= _size - 1)
             return this
 
         val list = ArrayList<T>()
 
-        if(n == 0)
+        if (n == 0)
             return list
 
         var curr = head
         var idx = 0
 
-        while(curr != null && idx < n){
+        while (curr != null && idx < n) {
             list.add(curr.value)
 
             curr = curr.next
@@ -758,12 +761,12 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun takeWhile(predicate: (T) -> Boolean): List<T>{
+    fun takeWhile(predicate: (T) -> Boolean): List<T> {
         var curr = head
         val list = LinkedList<T>()
 
-        while(curr != null){
-            if(predicate(curr.value))
+        while (curr != null) {
+            if (predicate(curr.value))
                 list.add(curr.value)
             else
                 return list
@@ -775,10 +778,10 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     @NotNull
-    fun reversed(): List<T>{
+    fun reversed(): List<T> {
         val list = LinkedList<T>()
         var curr = head
-        while(curr != null){
+        while (curr != null) {
             list.push(curr.value)
 
             curr = curr.next
@@ -787,15 +790,15 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return list
     }
 
-    fun countOccurrences(@NotNull value: T): Int{
-        if(isEmpty())
+    fun countOccurrences(@NotNull value: T): Int {
+        if (isEmpty())
             return 0
 
         var curr = head
         var count = 0
 
-        while(curr != null){
-            if(curr.value.equals(value))
+        while (curr != null) {
+            if (curr.value.equals(value))
                 count++
 
             curr = curr.next
@@ -804,15 +807,15 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return count
     }
 
-    fun countOccurrences(predicate: (T) -> Boolean): Int{
-        if(isEmpty())
+    fun countOccurrences(predicate: (T) -> Boolean): Int {
+        if (isEmpty())
             return 0
 
         var curr = head
         var count = 0
 
-        while(curr != null){
-            if(predicate(curr.value))
+        while (curr != null) {
+            if (predicate(curr.value))
                 count++
 
             curr = curr.next
@@ -823,13 +826,13 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     fun sort(sortingType: SortingType = SortingType.ASCENDING) = selectionSort(sortingType)
 
-    fun selectionSort(sortingType: SortingType = SortingType.ASCENDING){
-        if(isEmpty())
+    fun selectionSort(sortingType: SortingType = SortingType.ASCENDING) {
+        if (isEmpty())
             return
 
         val greaterOrSmaller: Int
 
-        if(sortingType == SortingType.ASCENDING)
+        if (sortingType == SortingType.ASCENDING)
             greaterOrSmaller = 1
         else
             greaterOrSmaller = -1
@@ -837,9 +840,9 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         var startingNode = head!!
         var curr = head!!.next
 
-        while(curr != null){
-            while(curr != null){
-                if(startingNode.value.compareTo(curr.value) == greaterOrSmaller)
+        while (curr != null) {
+            while (curr != null) {
+                if (startingNode.value.compareTo(curr.value) == greaterOrSmaller)
                     swapValues(startingNode, curr)
 
                 curr = curr.next
@@ -850,23 +853,23 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         }
     }
 
-    fun bubbleSort(sortingType: SortingType = SortingType.ASCENDING){
-        if(isEmpty() || _size == 1)
+    fun bubbleSort(sortingType: SortingType = SortingType.ASCENDING) {
+        if (isEmpty() || _size == 1)
             return
 
         val greaterOrLess: Int
 
-        if(sortingType == SortingType.ASCENDING)
+        if (sortingType == SortingType.ASCENDING)
             greaterOrLess = 1
         else
             greaterOrLess = -1
 
-        repeat(_size){ i ->
+        repeat(_size) { i ->
             var curr = head
             var idx = 0
 
-            while(idx < _size - 1 - i){
-                if(curr!!.value.compareTo(curr.next!!.value) == greaterOrLess)
+            while (idx < _size - 1 - i) {
+                if (curr!!.value.compareTo(curr.next!!.value) == greaterOrLess)
                     swapValues(curr, curr.next!!)
 
                 curr = curr.next
@@ -875,7 +878,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         }
     }
 
-    private fun swapValues(@NotNull left: Node<T>, @NotNull right: Node<T>){
+    private fun swapValues(@NotNull left: Node<T>, @NotNull right: Node<T>) {
         val temp = left.value
         left.value = right.value
         right.value = temp
@@ -884,14 +887,14 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     @NotNull
     @Throws(IndexOutOfBoundsException::class)
     private fun getNode(index: Int): Node<T> {
-        if(isEmpty() || index < 0 || index >= _size)
+        if (isEmpty() || index < 0 || index >= _size)
             throw IndexOutOfBoundsException()
 
         var curr = head
         var idx = 0
 
-        while(curr != null){
-            if(idx == index)
+        while (curr != null) {
+            if (idx == index)
                 return curr
 
             curr = curr.next
@@ -902,24 +905,24 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     }
 
     override fun compareTo(other: LinkedList<T>): Int {
-        if(this._size > other._size)
+        if (this._size > other._size)
             return 1
-        if(this._size < other._size)
+        if (this._size < other._size)
             return -1
         return 0
     }
 
     override fun equals(other: Any?): Boolean {
-        if(this === other) return true
-        if(other == null) return false
-        if(other !is LinkedList<*>) return false
-        if(_size != other._size) return false
+        if (this === other) return true
+        if (other == null) return false
+        if (other !is LinkedList<*>) return false
+        if (_size != other._size) return false
 
         var curr = head
         var otherCurr = other.head
 
-        while(curr != null){
-            if(curr.value != otherCurr!!.value)
+        while (curr != null) {
+            if (curr.value != otherCurr!!.value)
                 return false
 
             curr = curr.next
@@ -932,20 +935,25 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     override fun toString(): String = joinToString(separator = ",") { it.toString() }
 
     @NotNull
-    fun joinToString(separator: String = " ", prefix: String = "[", postfix: String = "]", transform: (T) -> String): String{
-        if(isEmpty())
+    fun joinToString(
+        separator: String = " ",
+        prefix: String = "[",
+        postfix: String = "]",
+        transform: (T) -> String
+    ): String {
+        if (isEmpty())
             return ""
 
         var curr = head
         val sb = StringBuilder(prefix)
 
-        while(curr != null){
+        while (curr != null) {
             val string = transform(curr.value)
 
-            if(curr.next == null){
+            if (curr.next == null) {
                 sb.append(string)
                 break
-            }else{
+            } else {
                 sb.append("$string$separator")
             }
 
@@ -958,7 +966,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
 
     @NotNull
     override fun iterator(): MutableIterator<T> {
-        return LinkedListIterator(head)
+        return MutableLinkedIterator(head)
     }
 
     @Throws(NotImplementedError::class)
@@ -970,44 +978,6 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
     override fun listIterator(index: Int): MutableListIterator<T> {
         throw NotImplementedError()
     }
-
-    private inner class LinkedListIterator<T: Comparable<T>>(@Nullable private var curr: Node<T>?): MutableIterator<T> {
-        private var prev: Node<T>? = null
-
-        override fun hasNext(): Boolean  = curr != null
-
-        override fun next(): T {
-            val value = curr!!.value
-            prev = curr
-            curr = curr?.next
-
-            return value
-        }
-
-        @Throws(NotImplementedError::class)
-        override fun remove() = throw NotImplementedError()
-    }
-
-    private class Node<T: Comparable<T>>(@NotNull var value: T, @Nullable var next: Node<T>? = null): Comparable<Node<T>>{
-        override fun toString(): String = "$value"
-
-        override fun compareTo(other: Node<T>): Int{
-            if(value > other.value)
-                return 1
-            if(value < other.value)
-                return -1
-            return 0
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if(other !is Node<*>) return false
-            if (value != other.value) return false
-            if(other.next == next) return true
-            return false
-        }
-    }
 }
-
 @NotNull
 fun <T: Comparable<T>> Iterable<T>.toLinkedList(): LinkedList<T> = LinkedList.fromIterable(this)
