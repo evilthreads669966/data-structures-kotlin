@@ -1,5 +1,6 @@
-package lists
+package com.evilthreads.lists
 
+import com.evilthreads.SortingType
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.util.*
@@ -1005,11 +1006,6 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
             if(other.next == next) return true
             return false
         }
-    }
-
-    enum class SortingType{
-        ASCENDING,
-        DESCENDING,
     }
 }
 

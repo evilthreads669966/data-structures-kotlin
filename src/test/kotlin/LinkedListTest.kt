@@ -1,5 +1,6 @@
-import lists.LinkedList
-import lists.toLinkedList
+import com.evilthreads.lists.LinkedList
+import com.evilthreads.SortingType
+import com.evilthreads.lists.toLinkedList
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -574,7 +575,7 @@ class LinkedListTest {
             value++
         }
 
-        values = list.shuffled().toLinkedList().apply{ ( bubbleSort(LinkedList.SortingType.DESCENDING)) }
+        values = list.shuffled().toLinkedList().apply{ ( bubbleSort(SortingType.DESCENDING)) }
         value = 5
         values.forEach { v ->
             assertEquals(value, v)
