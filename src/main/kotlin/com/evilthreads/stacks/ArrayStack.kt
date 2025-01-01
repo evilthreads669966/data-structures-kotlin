@@ -1,13 +1,14 @@
 package com.evilthreads.stacks
 
+import com.evilthreads.ArrayIterator
 import com.evilthreads.SortingType
 import org.jetbrains.annotations.NotNull
 
-class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000) {
+class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000): Collection<T> {
     private var array: Array<T?> = arrayOfNulls<Comparable<T>>(initialCapacity) as Array<T?>
     private var top = -1
-
-    fun isEmpty(): Boolean = top == -1
+    override val size: Int
+        get() = top + 1
 
     fun push(@NotNull value: T){
         if(isFull())
@@ -42,8 +43,6 @@ class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000) {
         top = -1
     }
 
-    fun size(): Int = top + 1
-
     private fun isFull(): Boolean = top == array.size - 1
 
     private fun resize(){
@@ -51,6 +50,14 @@ class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000) {
         array.forEachIndexed { index, value -> arr[index] = value }
         array = arr
     }
+
+    override fun contains(value: T): Boolean = array.contains(value)
+
+    override fun containsAll(values: Collection<T>): Boolean = values.all { value -> contains(value) }
+
+    override fun isEmpty(): Boolean = top == -1
+
+    override fun iterator(): Iterator<T> = ArrayIterator<T>(array)
 
     fun selectionSort(sortingType: SortingType = SortingType.ASCENDING){
         if(isEmpty())
