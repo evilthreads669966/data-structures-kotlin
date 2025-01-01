@@ -1,4 +1,4 @@
-package com.evilthreads
+package com.evilthreads.iterators
 
 class ArrayIterator<T>(private val array: Array<T?>): Iterator<T> {
     private var index = -1
