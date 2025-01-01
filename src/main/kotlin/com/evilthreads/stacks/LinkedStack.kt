@@ -2,12 +2,13 @@ package com.evilthreads.stacks
 
 import com.evilthreads.Node
 import com.evilthreads.SortingType
+import com.evilthreads.iterators.LinkedIterator
 import org.jetbrains.annotations.NotNull
 
-class LinkedStack<T: Comparable<T>> {
+class LinkedStack<T: Comparable<T>>: Collection<T> {
     private var head: Node<T>? = null
     private var _size = 0
-    val size: Int
+    override val size: Int
         get() = _size
 
     fun push(@NotNull value: T){
@@ -36,7 +37,7 @@ class LinkedStack<T: Comparable<T>> {
     @Throws(NoSuchElementException::class)
     fun peek(): T = head?.value ?: throw NoSuchElementException()
 
-    fun isEmpty(): Boolean = head == null
+    override fun isEmpty(): Boolean = head == null
 
     fun clear(){
         head = null
@@ -76,6 +77,31 @@ class LinkedStack<T: Comparable<T>> {
         right.value = temp
     }
 
+    override fun containsAll(values: Collection<T>): Boolean {
+        if(isEmpty() || values.isEmpty())
+            return false
+
+        values.forEach { value -> if(!contains(value)) return false }
+
+        return true
+    }
+
+    override fun contains(value: T): Boolean {
+        if(isEmpty())
+            return false
+
+        var curr = head
+
+        while(curr != null){
+            if(curr.value == value)
+                return true
+
+            curr = curr.next
+        }
+
+        return false
+    }
+
     override fun toString(): String {
         val sb = StringBuilder("")
 
@@ -99,4 +125,6 @@ class LinkedStack<T: Comparable<T>> {
 
         return sb.toString()
     }
+
+    override fun iterator(): Iterator<T> = LinkedIterator<T>(head)
 }

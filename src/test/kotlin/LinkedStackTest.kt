@@ -90,4 +90,31 @@ class LinkedStackTest {
         val string = "[5 4 3 2 1]"
         assertEquals(string, stack.toString())
     }
+
+    @Test
+    fun testContains(){
+        assertTrue(stack.contains(5))
+        assertFalse(stack.contains(6))
+    }
+
+    @Test
+    fun testContainsAll(){
+        val values = mutableListOf(2,3,5)
+        assertTrue(stack.containsAll(values))
+        values.add(6)
+        assertFalse(stack.containsAll(values))
+    }
+
+    @Test
+    fun testIterator(){
+        val iterator = stack.iterator()
+        assertTrue(iterator.hasNext())
+        assertNotNull(iterator.next())
+
+        repeat(4){
+            iterator.next()
+        }
+
+        assertFalse(iterator.hasNext())
+    }
 }
