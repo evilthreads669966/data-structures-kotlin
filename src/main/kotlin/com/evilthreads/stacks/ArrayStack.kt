@@ -1,6 +1,6 @@
 package com.evilthreads.stacks
 
-import com.evilthreads.ArrayIterator
+import com.evilthreads.iterators.ArrayIterator
 import com.evilthreads.SortingType
 import org.jetbrains.annotations.NotNull
 

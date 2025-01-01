@@ -113,5 +113,4 @@ class ArrayStackTest {
         values.add(6)
         assertFalse(stack.containsAll(values))
     }
-
 }
