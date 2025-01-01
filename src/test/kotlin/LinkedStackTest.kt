@@ -68,4 +68,26 @@ class LinkedStackTest {
         stack.clear()
         assertEquals(0, stack.size)
     }
+
+    @Test
+    fun testSelectionSort(){
+        stack.clear()
+        stack.push(2)
+        stack.push(5)
+        stack.push(1)
+        stack.push(3)
+        stack.push(4)
+
+        stack.selectionSort()
+
+        for(value in 5 downTo  1){
+            assertEquals(value, stack.pop())
+        }
+    }
+
+    @Test
+    fun testToString(){
+        val string = "[5 4 3 2 1]"
+        assertEquals(string, stack.toString())
+    }
 }
