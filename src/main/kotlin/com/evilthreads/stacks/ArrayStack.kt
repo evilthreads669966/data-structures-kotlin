@@ -1,6 +1,6 @@
 package com.evilthreads.stacks
 
-import com.evilthreads.iterators.ArrayIterator
+import com.evilthreads.iterators.ArrayStackIterator
 import com.evilthreads.SortingType
 import org.jetbrains.annotations.NotNull
 
@@ -57,7 +57,7 @@ class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000): Col
 
     override fun isEmpty(): Boolean = top == -1
 
-    override fun iterator(): Iterator<T> = ArrayIterator<T>(array)
+    override fun iterator(): Iterator<T> = ArrayStackIterator<T>(array, top)
 
     fun selectionSort(sortingType: SortingType = SortingType.ASCENDING){
         if(isEmpty())
