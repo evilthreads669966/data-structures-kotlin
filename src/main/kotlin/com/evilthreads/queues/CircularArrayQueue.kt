@@ -41,7 +41,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     fun last(): T?{
         if(isEmpty())
             return null
-        println(rear)
+
         if(rear == 0)
             return array[rear]
 
@@ -94,7 +94,6 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     private fun isFull(): Boolean = _size == array.size - 1
 
     private fun resize(){
-        println("RESIZING")
         val arr: Array<T?> = arrayOfNulls<Comparable<T>>(array.size * 2) as Array<T?>
 
         if(front < rear){
@@ -161,7 +160,9 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
             lessOrGreater = 1
         else
             lessOrGreater = -1
+
         var i = front
+
         repeat(_size){
             if(i < rear){
                 for(j in i + 1 until rear){
@@ -197,6 +198,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                 }
             }
         }
+
         if(i == array.size - 1)
             i = 0
         else
