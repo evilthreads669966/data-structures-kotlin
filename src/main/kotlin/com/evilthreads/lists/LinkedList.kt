@@ -325,12 +325,7 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         if (isEmpty() || c.isEmpty())
             return false
 
-        c.forEach { value ->
-            if (!contains(value))
-                return false
-        }
-
-        return true
+        return c.all{ value -> contains(value) }
     }
 
     override fun contains(@NotNull value: T): Boolean {

@@ -54,7 +54,7 @@ class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000): Col
     override fun contains(value: T): Boolean = array.contains(value)
 
     override fun containsAll(values: Collection<T>): Boolean{
-        if(values.isEmpty())
+        if(isEmpty() || values.isEmpty())
             return false
 
         return values.all { value -> contains(value) }

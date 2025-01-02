@@ -78,10 +78,10 @@ class LinkedStack<T: Comparable<T>>: Collection<T> {
     }
 
     override fun containsAll(values: Collection<T>): Boolean{
-        if(values.isEmpty())
+        if(isEmpty() || values.isEmpty())
             return false
 
-        return values.all { contains(it) }
+        return values.all { value -> contains(value) }
     }
 
     override fun contains(value: T): Boolean {
