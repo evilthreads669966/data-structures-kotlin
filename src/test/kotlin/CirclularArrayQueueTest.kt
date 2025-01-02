@@ -106,6 +106,6 @@ class CirclularArrayQueueTest {
 
         assertFalse(iterator.hasNext())
 
-        assertThrows(NullPointerException::class.java){ iterator.next() }
+        assertThrows(IndexOutOfBoundsException::class.java){ iterator.next() }
     }
 }
