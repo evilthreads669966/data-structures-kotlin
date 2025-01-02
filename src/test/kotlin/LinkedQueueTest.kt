@@ -72,6 +72,8 @@ class LinkedQueueTest {
         assertTrue(queue.containsAll(values))
         values.add(6)
         assertFalse(queue.containsAll(values))
+        values.clear()
+        assertFalse(queue.containsAll(values))
     }
 
     @Test

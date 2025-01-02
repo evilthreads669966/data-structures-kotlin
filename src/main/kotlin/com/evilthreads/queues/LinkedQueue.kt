@@ -56,7 +56,12 @@ class LinkedQueue<T: Comparable<T>>: Iterable<T> {
         return false
     }
 
-    fun containsAll(@NotNull values: Collection<T>): Boolean = values.all { contains(it) }
+    fun containsAll(@NotNull values: Collection<T>): Boolean{
+        if(values.isEmpty())
+            return false
+
+        return values.all { contains(it) }
+    }
 
     fun clear(){
         head = null
