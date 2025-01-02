@@ -89,7 +89,12 @@ class ArrayStack<T: Comparable<T>>(private val initialCapacity: Int = 1000): Col
 
         sb.append("[")
 
-        array.filterNotNull().forEach { value -> sb.append("$value ") }
+        for(i in 0 until top + 1){
+            if(i == top)
+                sb.append(array[i])
+            else
+                sb.append("${array[i]} ")
+        }
 
         sb.append("]")
 

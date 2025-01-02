@@ -113,4 +113,10 @@ class ArrayStackTest {
         values.add(6)
         assertFalse(stack.containsAll(values))
     }
+
+    @Test
+    fun testToString(){
+        val string = "[1 2 3 4 5]"
+        assertEquals(string, stack.toString())
+    }
 }
