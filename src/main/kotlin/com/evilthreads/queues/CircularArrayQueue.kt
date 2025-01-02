@@ -1,5 +1,6 @@
 package com.evilthreads.queues
 
+import com.evilthreads.SortingType
 import com.evilthreads.iterators.ArrayIterator
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
@@ -92,6 +93,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     private fun isFull(): Boolean = _size == array.size - 1
 
     private fun resize(){
+        println("RESIZING")
         val arr: Array<T?> = arrayOfNulls<Comparable<T>>(array.size * 2) as Array<T?>
 
         if(front < rear){
@@ -143,9 +145,60 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
             }
         }
 
-
         sb.append("]")
 
         return sb.toString()
+    }
+
+    fun selectionSort(sortingType: SortingType = SortingType.ASCENDING){
+        if(isEmpty())
+            return
+
+        val lessOrGreater: Int
+
+        if(sortingType == SortingType.ASCENDING)
+            lessOrGreater = 1
+        else
+            lessOrGreater = -1
+        var i = front
+        repeat(_size){
+            if(i < rear){
+                for(j in i + 1 until rear){
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
+                        val temp = array[i]
+                        array[i] = array[j]
+                        array[j] = temp
+                    }
+                }
+            }else if(array[i] == array[array.size-1]){
+                for(j in 0 until rear){
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
+                        val temp = array[i]
+                        array[i] = array[j]
+                        array[j] = temp
+                    }
+                }
+            }
+            else if(i < array.size - 1){
+                for(j in i + 1 until _size){
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
+                        val temp = array[i]
+                        array[i] = array[j]
+                        array[j] = temp
+                    }
+                }
+                for(j in 0 until rear){
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
+                        val temp = array[i]
+                        array[i] = array[j]
+                        array[j] = temp
+                    }
+                }
+            }
+        }
+        if(i == array.size - 1)
+            i = 0
+        else
+            i++
     }
 }
