@@ -71,6 +71,8 @@ class CirclularArrayQueueTest {
     fun testContains(){
         assertTrue(queue.contains(3))
         assertFalse(queue.contains(6))
+        queue.dequeue()
+        assertTrue(queue.contains(3))
     }
 
     @Test

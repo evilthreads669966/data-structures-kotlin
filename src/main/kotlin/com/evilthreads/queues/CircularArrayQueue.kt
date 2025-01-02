@@ -59,7 +59,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         if(isEmpty())
             return false
 
-        for(i in 0..rear + 1){
+        for(i in front until rear){
             if(array[i] == value)
                 return true
         }
