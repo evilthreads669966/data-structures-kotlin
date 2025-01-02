@@ -87,4 +87,25 @@ class CirclularArrayQueueTest {
         queue.enqueue(7)
         assertEquals(7, queue.size)
     }
+
+    @Test
+    fun testToString(){
+        val string = "[1 2 3 4 5]"
+        assertEquals(string, queue.toString())
+    }
+
+    @Test
+    fun testIterator(){
+        val iterator = queue.iterator()
+        assertTrue(iterator.hasNext())
+        assertNotNull(iterator.next())
+
+        repeat(4){
+            iterator.next()
+        }
+
+        assertFalse(iterator.hasNext())
+
+        assertThrows(NullPointerException::class.java){ iterator.next() }
+    }
 }

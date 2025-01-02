@@ -1,9 +1,10 @@
 package com.evilthreads.queues
 
+import com.evilthreads.iterators.ArrayIterator
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
-class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int) {
+class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     private var array: Array<T?> = arrayOfNulls<Comparable<T>>(initialCapacity) as Array<T?>
     private var front = 0
     private var rear = 0
@@ -88,5 +89,29 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int) {
         }
 
         array = arr
+    }
+
+    override fun iterator(): Iterator<T> {
+        return ArrayIterator<T>(array, front, rear - 1)
+    }
+
+    override fun toString(): String {
+        val sb = StringBuilder("")
+
+        if(isEmpty())
+            return sb.toString()
+
+        sb.append("[")
+
+        for(index in front until rear){
+            if(index == rear - 1)
+                sb.append(array[index])
+            else
+                sb.append("${array[index]} ")
+        }
+
+        sb.append("]")
+
+        return sb.toString()
     }
 }
