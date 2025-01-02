@@ -603,17 +603,20 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return chunks
     }
 
-    fun any(predicate: (T) -> Boolean): Boolean {
+    fun any(@NotNull predicate: (T) -> Boolean): Boolean {
+        if(isEmpty())
+            return false
+
         var curr = head
 
         while (curr != null) {
-            if (predicate(curr.value))
-                return true
+            if (!predicate(curr.value))
+                return false
 
             curr = curr.next
         }
 
-        return false
+        return true
     }
 
     fun all(predicate: (T) -> Boolean): Boolean {
