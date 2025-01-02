@@ -16,15 +16,15 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         if(isFull())
             resize()
 
-        array[rear] = value
-        rear = (rear + 1) % array.size
+        array[rear++] = value
+        rear = rear % array.size
         _size++
     }
 
     @Nullable
     fun dequeue(): T?{
-        val value = array[front]
-        front = (front + 1) % array.size
+        val value = array[front++]
+        front = front % array.size
         _size--
 
         return value
