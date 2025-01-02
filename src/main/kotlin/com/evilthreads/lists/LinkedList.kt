@@ -616,6 +616,19 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         return false
     }
 
+    fun all(predicate: (T) -> Boolean): Boolean {
+        var curr = head
+
+        while (curr != null) {
+            if(!predicate(curr.value))
+                return false
+
+            curr = curr.next
+        }
+
+        return true
+    }
+
     @NotNull
     fun <S> zip(@NotNull values: Collection<S>): List<Pair<T, S>> {
         val pairs = ArrayList<Pair<T, S>>()

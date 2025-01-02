@@ -394,6 +394,12 @@ class LinkedListTest {
     }
 
     @Test
+    fun testAll(){
+        assertTrue(list.all { value -> value < 6 })
+        assertFalse(list.all { value -> value % 2 == 0 })
+    }
+
+    @Test
     fun testChunked(){
         val values = listOf(10,11)
         list.addAll(values)
