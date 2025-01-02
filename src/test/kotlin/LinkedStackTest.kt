@@ -103,6 +103,8 @@ class LinkedStackTest {
         assertTrue(stack.containsAll(values))
         values.add(6)
         assertFalse(stack.containsAll(values))
+        values.clear()
+        assertFalse(stack.containsAll(values))
     }
 
     @Test

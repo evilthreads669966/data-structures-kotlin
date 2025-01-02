@@ -77,13 +77,11 @@ class LinkedStack<T: Comparable<T>>: Collection<T> {
         right.value = temp
     }
 
-    override fun containsAll(values: Collection<T>): Boolean {
-        if(isEmpty() || values.isEmpty())
+    override fun containsAll(values: Collection<T>): Boolean{
+        if(values.isEmpty())
             return false
 
-        values.forEach { value -> if(!contains(value)) return false }
-
-        return true
+        return values.all { contains(it) }
     }
 
     override fun contains(value: T): Boolean {
