@@ -610,16 +610,19 @@ class LinkedList<T : Comparable<T>>(vararg values: T) : MutableList<T>, Comparab
         var curr = head
 
         while (curr != null) {
-            if (!predicate(curr.value))
-                return false
+            if (predicate(curr.value))
+                return true
 
             curr = curr.next
         }
 
-        return true
+        return false
     }
 
     fun all(predicate: (T) -> Boolean): Boolean {
+        if(isEmpty())
+            return false
+
         var curr = head
 
         while (curr != null) {
