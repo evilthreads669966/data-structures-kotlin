@@ -61,6 +61,13 @@ class LinkedQueueTest {
     }
 
     @Test
+    fun testLast(){
+        assertEquals(5, queue.last())
+        queue.clear()
+        assertNull(queue.last())
+    }
+
+    @Test
     fun testContains(){
         assertTrue(queue.contains(1))
         assertFalse(queue.contains(6))
@@ -96,5 +103,11 @@ class LinkedQueueTest {
         }
 
         assertFalse(iterator.hasNext())
+    }
+
+    @Test
+    fun testToString(){
+        val string = "[1 2 3 4 5]"
+        assertEquals(string, queue.toString())
     }
 }

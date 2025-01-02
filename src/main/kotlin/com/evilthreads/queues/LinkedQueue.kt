@@ -40,6 +40,9 @@ class LinkedQueue<T: Comparable<T>>: Iterable<T> {
     fun peek(): T? = head?.value
 
 
+    fun last(): T? = tail?.value
+
+
     fun contains(@NotNull value: T): Boolean{
         if(isEmpty())
             return false
