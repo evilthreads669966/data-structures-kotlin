@@ -58,10 +58,20 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     fun contains(@NotNull value: T): Boolean{
         if(isEmpty())
             return false
-
-        for(i in front until rear){
-            if(array[i] == value)
-                return true
+        if(front < rear){
+            for(i in front until rear){
+                if(array[i] == value)
+                    return true
+            }
+        }else{
+            for(i in front  until array.size){
+                if(array[i] == value)
+                    return true
+            }
+            for(i in 0 until rear){
+                if(array[i] == value)
+                    return true
+            }
         }
 
         return false
@@ -84,9 +94,21 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     private fun resize(){
         val arr: Array<T?> = arrayOfNulls<Comparable<T>>(array.size * 2) as Array<T?>
 
-        for(i in front  until rear){
-            arr[i] = array[i]
+        if(front < rear){
+            for(i in front  until rear){
+                arr[i] = array[i]
+            }
+        }else{
+            for(i in front until array.size){
+                arr[i] = array[i]
+            }
+            for(i in 0 until rear){
+                arr[i] = array[i]
+            }
         }
+
+        front = 0
+        rear = _size
 
         array = arr
     }
@@ -102,13 +124,25 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
             return sb.toString()
 
         sb.append("[")
-
-        for(index in front until rear){
-            if(index == rear - 1)
-                sb.append(array[index])
-            else
+        if(front < rear){
+            for(index in front until rear){
+                if(index == rear - 1)
+                    sb.append(array[index])
+                else
+                    sb.append("${array[index]} ")
+            }
+        }else{
+            for(index in front until array.size){
                 sb.append("${array[index]} ")
+            }
+            for(index in 0 until rear){
+                if(index == rear - 1)
+                    sb.append(array[index])
+                else
+                    sb.append("${array[index]} ")
+            }
         }
+
 
         sb.append("]")
 

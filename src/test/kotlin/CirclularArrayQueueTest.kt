@@ -72,7 +72,11 @@ class CirclularArrayQueueTest {
         assertTrue(queue.contains(3))
         assertFalse(queue.contains(6))
         queue.dequeue()
-        assertTrue(queue.contains(3))
+        queue.dequeue()
+        queue.dequeue()
+        queue.enqueue(1)
+        queue.enqueue(2)
+        assertTrue(queue.contains(4))
     }
 
     @Test
