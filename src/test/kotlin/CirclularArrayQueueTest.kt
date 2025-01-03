@@ -178,4 +178,29 @@ class CirclularArrayQueueTest {
         other.enqueue(5)
         assertEquals(other, queue)
     }
+
+    @Test
+    fun testRemoveByIndex(){
+        queue.dequeue() //front = 1
+        queue.dequeue() //front = 2
+        queue.dequeue() //front = 3
+        queue.enqueue(1) //rear = 6
+        queue.enqueue(2) //rear = 0
+        queue.enqueue(3) //rear = 1
+        val index = queue.indexOf(2)
+        assertEquals(index, 3)
+        queue.remove(index)
+        assertFalse(queue.contains(2))
+        println(queue)
+        tearDown()
+        setUp()
+        val idx = queue.indexOf(3)
+        queue.remove(idx)
+        assertFalse(queue.contains(3))
+    }
+
+    @Test
+    fun testIndexOf(){
+        assertEquals(2, queue.indexOf(3))
+    }
 }

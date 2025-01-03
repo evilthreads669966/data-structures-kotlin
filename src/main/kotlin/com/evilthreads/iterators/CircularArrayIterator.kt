@@ -1,5 +1,7 @@
 package com.evilthreads.iterators
 
+import org.jetbrains.annotations.NotNull
+
 class CircularArrayIterator<T>(private val array: Array<T?>, private val front: Int, private val rear: Int): Iterator<T> {
     private var index = front
 
@@ -13,4 +15,6 @@ class CircularArrayIterator<T>(private val array: Array<T?>, private val front: 
 
         return value
     }
+
+
 }

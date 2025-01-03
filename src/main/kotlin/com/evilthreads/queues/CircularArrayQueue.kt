@@ -260,6 +260,80 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         }
     }
 
+
+    @Throws(IndexOutOfBoundsException::class)
+    fun remove(index: Int): Boolean{
+        if(isEmpty())
+            return false
+        removeAndShiftLeft(index)
+        _size--
+        return true
+    }
+
+    fun indexOf(@NotNull value: T): Int{
+        if(isEmpty())
+            return -1
+
+        var idx = 0
+
+        if(front < rear){
+            for(i in front until rear){
+                if(array[i] == value){
+                    return idx
+                }
+                idx++
+            }
+        }else{
+            for(i in front until array.size){
+                if(array[i] == value)
+                    return idx
+                idx++
+            }
+            for(i in 0 until rear){
+                if(array[i] == value)
+                    return idx
+                idx++
+            }
+        }
+
+        return -1
+    }
+
+
+    @Throws(IndexOutOfBoundsException::class)
+    private fun removeAndShiftLeft(index: Int){
+        if((front < rear && index > rear) || front > rear && index < front && index > rear)
+            throw IndexOutOfBoundsException()
+
+        val index = front + index
+
+        if(front < rear){
+            for(i in index until rear - 1){
+                array[i] = array[i + 1]
+            }
+        }else if(index < array.size){
+            for(i in index until array.size - 1){
+                if(index == array.size - 1){
+                    array[i] = array[0]
+                }else{
+                    array[i] = array[i + 1]
+                }
+            }
+            for(i in 0 until rear - 1){
+                array[i] = array[i + 1]
+            }
+        }else if(index > array.size - 1){
+
+            for(i in index - array.size until rear - 1){
+                array[i] = array[i + 1]
+            }
+        }
+        if(rear - 1 < 0)
+            rear = array.size - 1
+        else
+            rear = rear - 1
+    }
+
     private fun swapValues(leftIndex: Int, rightIndex: Int){
         val temp = array[leftIndex]
         array[leftIndex] = array[rightIndex]
