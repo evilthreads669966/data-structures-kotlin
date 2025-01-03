@@ -302,7 +302,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
 
     @Throws(IndexOutOfBoundsException::class)
     private fun removeAndShiftLeft(index: Int){
-        if((front < rear && index > rear) || front > rear && index < front && index > rear)
+        if(index < 0 || index > rear && front < rear)
             throw IndexOutOfBoundsException()
 
         val index = front + index
