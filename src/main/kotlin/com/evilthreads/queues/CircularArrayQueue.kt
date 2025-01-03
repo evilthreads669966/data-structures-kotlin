@@ -118,6 +118,23 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         return CircularArrayIterator(array, front, rear)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(this === other) return true
+        if(other == null) return false
+        if(other !is CircularArrayQueue<*>) return false
+        if(size != other.size) return false
+
+        val iterator = iterator()
+        val otherIterator = iterator()
+
+        while(iterator.hasNext()){
+            if(iterator.next() != otherIterator.next())
+                return false
+        }
+
+        return true
+    }
+
     override fun toString(): String {
         val sb = StringBuilder("")
 

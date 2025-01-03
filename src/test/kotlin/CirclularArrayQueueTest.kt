@@ -1,3 +1,4 @@
+import com.evilthreads.SortingType
 import com.evilthreads.queues.CircularArrayQueue
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -161,5 +162,20 @@ class CirclularArrayQueueTest {
         queue.enqueue(6)
         queue.bubbleSort()
         println(queue)
+        queue.clear()
+        setUp()
+        queue.bubbleSort(SortingType.DESCENDING)
+        println(queue)
+    }
+
+    @Test
+    fun testEquals(){
+        val other = CircularArrayQueue<Int>(10)
+        other.enqueue(1)
+        other.enqueue(2)
+        other.enqueue(3)
+        other.enqueue(4)
+        other.enqueue(5)
+        assertEquals(other, queue)
     }
 }
