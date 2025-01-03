@@ -136,12 +136,13 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     }
 
     override fun toString(): String {
-        val sb = StringBuilder("")
+        val sb = StringBuilder()
 
         if(isEmpty())
             return sb.toString()
 
         sb.append("[")
+
         if(front < rear){
             for(index in front until rear){
                 if(index == rear - 1)
@@ -260,9 +261,42 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         }
     }
 
+    fun remove(@NotNull value: T): Boolean{
+        if(isEmpty())
+            return false
+
+        if(front < rear){
+            for(i in front until rear){
+                if(array[i] == value){
+                    removeAndShiftLeft(i - front)
+                    _size--
+                    return true
+                }
+
+            }
+        }else if(front > rear){
+            for(i in front until array.size){
+                if(array[i] == value){
+                    removeAndShiftLeft(i - front)
+                    _size--
+                    return true
+                }
+            }
+            for(i in 0 until rear){
+                if(array[i] == value){
+                    removeAndShiftLeft(array.size - 1 - front + i)
+                    _size--
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
 
     @Throws(IndexOutOfBoundsException::class)
-    fun remove(index: Int): Boolean{
+    fun removeAt(index: Int): Boolean{
         if(isEmpty())
             return false
         removeAndShiftLeft(index)
@@ -312,7 +346,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                 array[i] = array[i + 1]
             }
         }else if(index < array.size){
-            for(i in index until array.size - 1){
+            for(i in index until array.size){
                 if(index == array.size - 1){
                     array[i] = array[0]
                 }else{
