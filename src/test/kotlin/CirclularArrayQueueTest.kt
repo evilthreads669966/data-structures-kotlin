@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
 class CirclularArrayQueueTest {
-    private var queue = CircularArrayQueue<Int>(5)
+    private var queue = CircularArrayQueue<Int>(6)
 
     @BeforeEach
     fun setUp() {
@@ -96,7 +96,8 @@ class CirclularArrayQueueTest {
 
     @Test
     fun testToString(){
-        val string = "[1 2 3 4 5]"
+        val string = "[1 2 3 4 5 6]"
+        queue.enqueue(6)
         assertEquals(string, queue.toString())
     }
 
@@ -113,5 +114,33 @@ class CirclularArrayQueueTest {
         assertFalse(iterator.hasNext())
 
         assertThrows(IndexOutOfBoundsException::class.java){ iterator.next() }
+    }
+
+    @Test
+    fun testSelectionSort(){
+        queue.dequeue() //remove 1
+        queue.dequeue() //remove 2
+        queue.dequeue() //remove 3
+        queue.dequeue() // remove 4
+        //front equals 4
+        queue.enqueue(3) // rear = 6
+        queue.enqueue(1) // rear = 0
+        queue.enqueue(5) // rear = 1
+        queue.enqueue(6) // rear = 2
+        // front equals 4 rear = 2
+        //queue = [5 3 1 5 6]
+        queue.selectionSort()
+        var list = listOf(1,3,5,5,6)
+        assertEquals(list, queue.toList())
+
+        queue.clear()
+        queue.enqueue(3)
+        queue.enqueue(1)
+        queue.enqueue(5)
+        queue.enqueue(4)
+        queue.enqueue(2)
+        queue.selectionSort()
+        list = listOf(1,2,3,4,5)
+        assertEquals(list, queue.toList())
     }
 }

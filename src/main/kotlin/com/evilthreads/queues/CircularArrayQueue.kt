@@ -1,7 +1,6 @@
 package com.evilthreads.queues
 
 import com.evilthreads.SortingType
-import com.evilthreads.iterators.ArrayIterator
 import com.evilthreads.iterators.CircularArrayIterator
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
@@ -180,8 +179,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                         array[j] = temp
                     }
                 }
-            }
-            else if(i < array.size - 1){
+            }else if(i < array.size - 1){
                 for(j in i + 1 until _size){
                     if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
                         val temp = array[i]
@@ -197,11 +195,11 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                     }
                 }
             }
-        }
 
-        if(i == array.size - 1)
-            i = 0
-        else
-            i++
+            if(i == array.size - 1)
+                i = 0
+            else
+                i++
+        }
     }
 }
