@@ -180,7 +180,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                     }
                 }
             }else if(i < array.size - 1){
-                for(j in i + 1 until _size){
+                for(j in i + 1 until array.size){
                     if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
                         val temp = array[i]
                         array[i] = array[j]
