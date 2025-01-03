@@ -202,4 +202,43 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                 i++
         }
     }
+
+    fun bubbleSort(sortingType: SortingType = SortingType.ASCENDING){
+        if(isEmpty())
+            return
+
+        val lessOrGreater: Int
+
+        if(sortingType == SortingType.ASCENDING)
+            lessOrGreater = 1
+        else
+            lessOrGreater = -1
+
+        repeat(_size){ i ->
+            if(front < rear){
+                for(j in front until rear - i - 1){
+                    if(array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater){
+                        val temp = array[j]
+                        array[j] = array[j + 1]
+                        array[j + 1] = temp
+                    }
+                }
+            }else{
+                for(j in front until array.size - 2){
+                    if(array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater){
+                        val temp = array[j]
+                        array[j] = array[j + 1]
+                        array[j + 1] = temp
+                    }
+                }
+                for(j in 0 until rear - i - 1){
+                    if(array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater){
+                        val temp = array[j]
+                        array[j] = array[j + 1]
+                        array[j + 1] = temp
+                    }
+                }
+            }
+        }
+    }
 }

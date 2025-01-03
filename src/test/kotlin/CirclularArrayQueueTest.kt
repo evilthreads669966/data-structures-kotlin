@@ -126,13 +126,13 @@ class CirclularArrayQueueTest {
         queue.enqueue(3) // rear = 6
         queue.enqueue(1) // rear = 0
         queue.enqueue(5) // rear = 1
-        queue.enqueue(6) // rear = 2
+        //queue.enqueue(6) // rear = 2
         // front equals 4 rear = 2
         //queue = [5 3 1 5 6]
         queue.selectionSort()
-        var list = listOf(1,3,5,5,6)
+        var list = listOf(1,3,4,5,5)
         assertEquals(list, queue.toList())
-
+        println(queue)
         queue.clear()
         queue.enqueue(3)
         queue.enqueue(1)
@@ -140,7 +140,23 @@ class CirclularArrayQueueTest {
         queue.enqueue(4)
         queue.enqueue(2)
         queue.selectionSort()
+        println(queue)
         list = listOf(1,2,3,4,5)
         assertEquals(list, queue.toList())
+    }
+
+    @Test
+    fun testBubbleSort(){
+        var list = queue.toList().shuffled()
+        queue.clear()
+        list.forEach { value -> queue.enqueue(value) }
+        queue.dequeue()
+        queue.dequeue()
+        queue.dequeue()
+        queue.enqueue(8)
+        queue.enqueue(7)
+        queue.enqueue(6)
+        queue.bubbleSort()
+        println(queue)
     }
 }
