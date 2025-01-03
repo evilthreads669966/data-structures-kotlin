@@ -121,7 +121,7 @@ class CirclularArrayQueueTest {
         queue.dequeue() //remove 1
         queue.dequeue() //remove 2
         queue.dequeue() //remove 3
-        queue.dequeue() // remove 4
+
         //front equals 4
         queue.enqueue(3) // rear = 6
         queue.enqueue(1) // rear = 0
@@ -147,9 +147,12 @@ class CirclularArrayQueueTest {
 
     @Test
     fun testBubbleSort(){
-        var list = queue.toList().shuffled()
         queue.clear()
-        list.forEach { value -> queue.enqueue(value) }
+        queue.enqueue(4)
+        queue.enqueue(3)
+        queue.enqueue(1)
+        queue.enqueue(5)
+        queue.enqueue(2)
         queue.dequeue()
         queue.dequeue()
         queue.dequeue()
