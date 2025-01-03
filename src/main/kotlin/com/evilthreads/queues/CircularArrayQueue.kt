@@ -217,63 +217,47 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         repeat(_size){ i ->
             if(front < rear) {
                 for (j in front until rear - i - 1) {
-                    if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater) {
-                        val temp = array[j]
-                        array[j] = array[j + 1]
-                        array[j + 1] = temp
-                    }
+                    if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater)
+                        swapValues(j, j + 1)
                 }
             }else{
                 if(rear - 1 - i > 0){
                     for (j in front until array.size) {
-                        if(j == array.size - 1){
-                            if(j == array.size - 1){
-                                val temp = array[j]
-                                array[j] = array[0]
-                                array[0] = temp
-                            }
-                        } else{
-                            if(array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater) {
-                                val temp = array[j]
-                                array[j] = array[j + 1]
-                                array[j + 1] = temp
-                            }
+                        if(j == array.size - 1)
+                            swapValues(j, 0)
+                        else{
+                            if(array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater)
+                                swapValues(j, j + 1)
                         }
                     }
                     for (j in 0 until rear - 1 - i) {
-                        if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater) {
-                            val temp = array[j]
-                            array[j] = array[j + 1]
-                            array[j + 1] = temp
-                        }
+                        if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater)
+                            swapValues(j, j + 1)
                     }
                 }else if(rear - 1 - i == 0){
                     for (j in front until array.size) {
                         if(j == array.size - 1){
-                            if (array[j]!!.compareTo(array[0]!!) == lessOrGreater) {
-                                val temp = array[j]
-                                array[j] = array[0]
-                                array[0] = temp
-                            }
+                            if (array[j]!!.compareTo(array[0]!!) == lessOrGreater)
+                                swapValues(j, 0)
                         }else{
-                            if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater) {
-                                val temp = array[j]
-                                array[j] = array[j + 1]
-                                array[j + 1] = temp
-                            }
+                            if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater)
+                                swapValues(j, j + 1)
                         }
                     }
                 }else{
                     val i = i - rear - 1
                     for (j in front until array.size - i - 2) {
-                        if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater) {
-                            val temp = array[j]
-                            array[j] = array[j + 1]
-                            array[j + 1] = temp
-                        }
+                        if (array[j]!!.compareTo(array[j + 1]!!) == lessOrGreater)
+                            swapValues(j, j + 1)
                     }
                 }
             }
         }
+    }
+
+    private fun swapValues(leftIndex: Int, rightIndex: Int){
+        val temp = array[leftIndex]
+        array[leftIndex] = array[rightIndex]
+        array[rightIndex] = temp
     }
 }
