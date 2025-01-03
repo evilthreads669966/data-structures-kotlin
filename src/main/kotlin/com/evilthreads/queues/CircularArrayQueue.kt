@@ -165,34 +165,22 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         repeat(_size){
             if(i < rear){
                 for(j in i + 1 until rear){
-                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
-                        val temp = array[i]
-                        array[i] = array[j]
-                        array[j] = temp
-                    }
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater)
+                        swapValues(i, j)
                 }
             }else if(i == array.size - 1){
                 for(j in 0 until rear){
-                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
-                        val temp = array[i]
-                        array[i] = array[j]
-                        array[j] = temp
-                    }
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater)
+                        swapValues(i, j)
                 }
             }else if(i < array.size - 1){
                 for(j in i + 1 until array.size){
-                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
-                        val temp = array[i]
-                        array[i] = array[j]
-                        array[j] = temp
-                    }
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater)
+                        swapValues(i, j)
                 }
                 for(j in 0 until rear){
-                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
-                        val temp = array[i]
-                        array[i] = array[j]
-                        array[j] = temp
-                    }
+                    if(array[i]!!.compareTo(array[j]!!) == lessOrGreater)
+                        swapValues(i, j)
                 }
             }
 
