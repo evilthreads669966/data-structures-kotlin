@@ -124,6 +124,8 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
             if(values.contains(array[index])){
                 for(i in index until _size - 1){
                     array[i] = array[i + 1]
+                    if(index == _size - 2)
+                        array[_size - 1] = null
                 }
 
                 removed = true
@@ -142,6 +144,8 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
             if(value == array[index]){
                 for(i in index until _size - 1){
                     array[i] = array[i + 1]
+                    if(i == _size - 2)
+                        array[_size - 1] = null
                 }
                 _size--
 
@@ -162,6 +166,8 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
 
         for(i in index until _size - 1){
             array[i] = array[i + 1]
+            if(i == _size - 2)
+                array[_size - 1] = null
         }
 
         _size--
