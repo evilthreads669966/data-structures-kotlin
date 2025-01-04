@@ -9,8 +9,10 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
         get() = _size
 
     override fun contains(value: T): Boolean {
-        array.forEach { v ->
-            if(v == value)
+        var index = 0
+
+        for(index in 0 until _size){
+            if(array[index] == value)
                 return true
         }
 
