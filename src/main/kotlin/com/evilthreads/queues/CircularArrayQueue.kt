@@ -94,7 +94,6 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T>{
 
     private fun resize(){
         val arr: Array<T?> = arrayOfNulls<Comparable<T>>(array.size * 2) as Array<T?>
-        println("resizing")
         var idx = 0
         if(front < rear){
             for(i in front  until rear){
