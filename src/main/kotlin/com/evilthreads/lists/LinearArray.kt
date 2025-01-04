@@ -1,4 +1,4 @@
-package com.evilthreads.arrays
+package com.evilthreads.lists
 
 import org.jetbrains.annotations.NotNull
 

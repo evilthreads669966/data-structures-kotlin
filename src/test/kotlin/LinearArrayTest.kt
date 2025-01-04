@@ -1,4 +1,4 @@
-import com.evilthreads.arrays.LinearArray
+import com.evilthreads.lists.LinearArray
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
