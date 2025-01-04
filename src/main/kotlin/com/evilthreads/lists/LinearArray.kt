@@ -70,7 +70,7 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
 
             @Throws(IndexOutOfBoundsException::class)
             override fun remove() {
-                removeAndShiftLeft(array[index - 1]!!)
+                removeAndShiftLeft(array[--index]!!)
             }
         }
     }
