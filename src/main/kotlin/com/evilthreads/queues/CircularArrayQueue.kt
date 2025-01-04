@@ -116,7 +116,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T>{
         array = arr
     }
 
-    override fun iterator(): MutableIterator<T> {
+    override fun iterator(): Iterator<T> {
         return CircularArrayIterator(array, front, rear)
     }
 
