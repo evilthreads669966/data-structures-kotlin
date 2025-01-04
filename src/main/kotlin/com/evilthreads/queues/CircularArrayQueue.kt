@@ -299,7 +299,6 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T>{
             }
         }
 
-        _size--
         return false
     }
 
