@@ -139,22 +139,18 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
     }
 
     private fun removeAndShiftLeft(@NotNull value: T): Boolean{
-        var index = 0
-
-        while(index < _size)
-            if(value == array[index]){
-                for(i in index until _size - 1){
+        for(index in 0 until _size) {
+            if (value == array[index]) {
+                for (i in index until _size - 1) {
                     array[i] = array[i + 1]
-                    if(i == _size - 2)
+                    if (i == _size - 2)
                         array[_size - 1] = null
                 }
                 _size--
 
                 return true
-            }else {
-                index++
             }
-
+        }
         return false
     }
 
