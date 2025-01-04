@@ -41,7 +41,7 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
         array[index] = value
     }
 
-    override fun addAll(values: Collection<T>): Boolean {
+    override fun addAll(@NotNull values: Collection<T>): Boolean {
         values.forEach { value ->
             if(isFull())
                 resize()
