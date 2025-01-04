@@ -3,7 +3,7 @@ package com.evilthreads.lists
 import com.evilthreads.SortingType
 import org.jetbrains.annotations.NotNull
 
-class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
+class LinearArray<T: Comparable<T>>(initialSize: Int = 1000) : MutableCollection<T> {
     private var array = arrayOfNulls<Comparable<T>>(initialSize) as Array<T?>
     private var _size = 0
     override val size: Int
@@ -127,6 +127,28 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
                     val temp = array[i]
                     array[i] = array[j]
                     array[j] = temp
+                }
+            }
+        }
+    }
+
+    fun bubbleSort(sortingType: SortingType = SortingType.ASCENDING){
+        if(isEmpty())
+            return
+
+        val lessOrGreater: Int
+
+        if(sortingType == SortingType.ASCENDING)
+            lessOrGreater = -1
+        else
+            lessOrGreater = 1
+
+        repeat(_size){ i ->
+            for(j in 0 until _size - i - 1){
+                if(array[j]!!.compareTo(array[j + 1]!!) != lessOrGreater){
+                    val temp = array[j]
+                    array[j] = array[j + 1]
+                    array[j + 1] = temp
                 }
             }
         }
