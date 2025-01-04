@@ -1,5 +1,6 @@
 package com.evilthreads.lists
 
+import com.evilthreads.SortingType
 import org.jetbrains.annotations.NotNull
 
 class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
@@ -109,6 +110,28 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
 
     fun indexOf(@NotNull value: T): Int = array.indexOf(value)
 
+    fun selectionSort(sortingType: SortingType = SortingType.ASCENDING){
+        if(isEmpty())
+            return
+
+        val lessOrGreater: Int
+
+        if(sortingType == SortingType.ASCENDING)
+            lessOrGreater = 1
+        else
+            lessOrGreater = -1
+
+        repeat(_size){ i ->
+            for(j in i + 1 until _size){
+                if(array[i]!!.compareTo(array[j]!!) == lessOrGreater){
+                    val temp = array[i]
+                    array[i] = array[j]
+                    array[j] = temp
+                }
+            }
+        }
+    }
+
     private fun isFull():Boolean = _size == array.size
 
     private fun resize(){
@@ -197,7 +220,7 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
             return true
         if(other == null)
             return false
-        if(other !is Array<*>)
+        if(other !is LinearArray<*>)
             return false
         if(_size != other.size)
             return false
