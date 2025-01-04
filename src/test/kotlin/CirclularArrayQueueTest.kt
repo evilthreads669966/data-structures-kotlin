@@ -219,4 +219,32 @@ class CirclularArrayQueueTest {
         queue.remove(2)
         println(queue)
     }
+
+/*    @Test
+    fun testRemoveAll(){
+        val values = mutableListOf<Int>(1,3,5)
+        //front = 0
+        queue.removeAll(values)
+        //rear = 2
+        println(queue)
+        //rear = 3
+        queue.enqueue(1) // [2,4,1]
+        //rear = 4
+        queue.enqueue(3) //[2,4,1,3]
+        //rear = 5
+        queue.enqueue(5) //[2,4,1,3,5]
+        //front = 1
+        queue.dequeue()
+        //front = 2
+        queue.dequeue()
+        //rear = 6
+        queue.enqueue(6)//[1,4,5,6]
+        //rear = 0
+        queue.enqueue(7)//queue = 1,3,5,6,7
+        values.add(7)
+        queue.removeAll(values)
+        println(queue)
+        val iterator = queue.iterator()
+        println(iterator.next())
+    }*/
 }

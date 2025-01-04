@@ -15,6 +15,4 @@ class CircularArrayIterator<T>(private val array: Array<T?>, private val front: 
 
         return value
     }
-
-
 }

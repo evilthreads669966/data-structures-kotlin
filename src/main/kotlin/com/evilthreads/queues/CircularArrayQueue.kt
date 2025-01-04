@@ -4,8 +4,10 @@ import com.evilthreads.SortingType
 import com.evilthreads.iterators.CircularArrayIterator
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
+import java.util.*
+import kotlin.NoSuchElementException
 
-class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
+class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T>{
     private var array: Array<T?> = arrayOfNulls<Comparable<T>>(initialCapacity) as Array<T?>
     private var front = 0
     private var rear = 0
@@ -32,9 +34,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
     }
 
     @Nullable
-    fun peek(): T?{
-        return array[front]
-    }
+    fun peek(): T? = array[front]
 
     @Nullable
     fun last(): T?{
@@ -94,27 +94,29 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
 
     private fun resize(){
         val arr: Array<T?> = arrayOfNulls<Comparable<T>>(array.size * 2) as Array<T?>
-
+        println("resizing")
+        var idx = 0
         if(front < rear){
             for(i in front  until rear){
-                arr[i] = array[i]
+                arr[idx] = array[i]
+                idx++
             }
         }else{
             for(i in front until array.size){
-                arr[i] = array[i]
+                arr[idx] = array[i]
+                idx++
             }
             for(i in 0 until rear){
-                arr[i] = array[i]
+                arr[idx] = array[i]
+                idx++
             }
         }
-
         front = 0
         rear = _size
-
         array = arr
     }
 
-    override fun iterator(): Iterator<T> {
+    override fun iterator(): MutableIterator<T> {
         return CircularArrayIterator(array, front, rear)
     }
 
@@ -265,32 +267,40 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
         if(isEmpty())
             return false
 
+        var i = front
         if(front < rear){
-            for(i in front until rear){
+            while(i < rear){
                 if(array[i] == value){
                     removeAndShiftLeft(i - front)
                     _size--
                     return true
+                }else{
+                    i++
                 }
-
             }
         }else if(front > rear){
-            for(i in front until array.size){
+            while(i < rear){
                 if(array[i] == value){
                     removeAndShiftLeft(i - front)
                     _size--
                     return true
+                }else{
+                    i++
                 }
             }
-            for(i in 0 until rear){
+            i = 0
+            while(i < rear){
                 if(array[i] == value){
                     removeAndShiftLeft(array.size - 1 - front + i)
                     _size--
                     return true
+                }else{
+                    i++
                 }
             }
         }
 
+        _size--
         return false
     }
 
@@ -336,9 +346,6 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
 
     @Throws(IndexOutOfBoundsException::class)
     private fun removeAndShiftLeft(index: Int){
-        if(index < 0 || index > rear && front < rear)
-            throw IndexOutOfBoundsException()
-
         val index = front + index
 
         if(front < rear){
@@ -347,7 +354,7 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
             }
         }else if(index < array.size){
             for(i in index until array.size){
-                if(index == array.size - 1){
+                if(i == array.size - 1){
                     array[i] = array[0]
                 }else{
                     array[i] = array[i + 1]
@@ -357,11 +364,11 @@ class CircularArrayQueue<T: Comparable<T>>(initialCapacity: Int): Iterable<T> {
                 array[i] = array[i + 1]
             }
         }else if(index > array.size - 1){
-
             for(i in index - array.size until rear - 1){
                 array[i] = array[i + 1]
             }
         }
+
         if(rear - 1 < 0)
             rear = array.size - 1
         else
