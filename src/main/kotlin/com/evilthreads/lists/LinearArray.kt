@@ -95,6 +95,8 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
         return removeAndShiftLeft(value)
     }
 
+    fun removeAt(index: Int): T = removeByIndexAndShiftLeft(index)
+
     override fun containsAll(@NotNull values: Collection<T>): Boolean {
         values.forEach { value ->
             if(!contains(value))
@@ -103,6 +105,8 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
 
         return true
     }
+
+    fun indexOf(@NotNull value: T): Int = array.indexOf(value)
 
     private fun isFull():Boolean = _size == array.size
 
@@ -150,9 +154,11 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
     }
 
     @Throws(IndexOutOfBoundsException::class)
-    private fun removeByIndexAndShiftLeft(index: Int): Boolean{
+    private fun removeByIndexAndShiftLeft(index: Int): T{
         if(index >= _size || index < 0)
             throw IndexOutOfBoundsException()
+
+        val value = array[index]!!
 
         for(i in index until _size - 1){
             array[i] = array[i + 1]
@@ -160,7 +166,7 @@ class LinearArray<T: Comparable<T>>(initialSize: Int) : MutableCollection<T> {
 
         _size--
 
-        return true
+        return value
     }
 
     override fun toString(): String {

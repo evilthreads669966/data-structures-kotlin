@@ -56,6 +56,12 @@ class LinearArrayTest {
     }
 
     @Test
+    fun testRemoveAt(){
+        assertEquals(3, array.removeAt(2))
+        assertFalse(array.contains(3))
+    }
+
+    @Test
     fun testRemoveAll(){
         val values = listOf(2,4)
         array.removeAll(values)
@@ -71,6 +77,11 @@ class LinearArrayTest {
     fun testSet(){
         array.set(2, 10)
         assertEquals(10, array[2])
+    }
+
+    @Test
+    fun testIndexOf(){
+        assertEquals(2, array.indexOf(3))
     }
 
     @Test
