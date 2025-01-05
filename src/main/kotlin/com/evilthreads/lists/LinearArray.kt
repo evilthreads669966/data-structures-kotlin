@@ -10,6 +10,9 @@ class LinearArray<T: Comparable<T>>(initialSize: Int = 1000) : MutableCollection
         get() = _size
 
     override fun contains(value: T): Boolean {
+        if(isEmpty())
+            return false
+
         for(index in 0 until _size){
             if(array[index] == value)
                 return true
@@ -100,6 +103,9 @@ class LinearArray<T: Comparable<T>>(initialSize: Int = 1000) : MutableCollection
     fun removeAt(index: Int): T = removeByIndexAndShiftLeft(index)
 
     override fun containsAll(@NotNull values: Collection<T>): Boolean {
+        if(isEmpty())
+            return false
+
         values.forEach { value ->
             if(!contains(value))
                 return false
