@@ -142,7 +142,13 @@ class LinearArrayTest {
 
     @Test
     fun testSelectionSort(){
-        array.shuffled()
+        array.clear()
+        array.add(3)
+        array.add(1)
+        array.add(4)
+        array.add(5)
+        array.add(2)
+
         array.selectionSort()
 
         val other = LinearArray<Int>(20)
@@ -152,7 +158,13 @@ class LinearArrayTest {
 
     @Test
     fun testBubbleSort(){
-        array.shuffled()
+        array.clear()
+        array.add(3)
+        array.add(1)
+        array.add(4)
+        array.add(5)
+        array.add(2)
+
         array.bubbleSort()
 
         val other = LinearArray<Int>(20)
