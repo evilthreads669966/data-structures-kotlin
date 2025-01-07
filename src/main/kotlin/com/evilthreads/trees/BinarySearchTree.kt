@@ -1,14 +1,12 @@
 package com.evilthreads.trees
 
+import com.evilthreads.TreeNode
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
-
-class Node<T: Comparable<T>>(@NotNull var value: T, @Nullable var left: Node<T>? = null, @Nullable var right: Node<T>? = null)
-
 class BinarySearchTree<T: Comparable<T>> {
     @Nullable
-    private var root: Node<T>? = null
+    private var root: TreeNode<T>? = null
     private var _size: Int = 0
     val size: Int
         get() = _size
@@ -20,9 +18,9 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @NotNull
-    private fun insert(@NotNull node: Node<T>?, @NotNull value: T): Node<T>{
+    private fun insert(@NotNull node: TreeNode<T>?, @NotNull value: T): TreeNode<T>{
         if(node == null)
-            return Node<T>(value)
+            return TreeNode<T>(value)
 
         if(value < node.value)
             node.left = insert(node.left, value)
@@ -34,7 +32,7 @@ class BinarySearchTree<T: Comparable<T>> {
 
     fun contains(@NotNull value: T): Boolean = contains(root, value)
 
-    private fun contains(@Nullable node: Node<T>?, @NotNull value: T): Boolean{
+    private fun contains(@Nullable node: TreeNode<T>?, @NotNull value: T): Boolean{
         if(node == null)
             return false
 
@@ -57,7 +55,7 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @NotNull
-    private fun max(@Nullable node: Node<T>): T{
+    private fun max(@Nullable node: TreeNode<T>): T{
         if(node.right == null)
             return node.value
 
@@ -74,7 +72,7 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @NotNull
-    private fun min(@NotNull node: Node<T>): T{
+    private fun min(@NotNull node: TreeNode<T>): T{
         if(node.left == null)
             return node.value
 
@@ -82,7 +80,7 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @Nullable
-    private fun remove(@Nullable node: Node<T>?, @NotNull value: T): Node<T>?{
+    private fun remove(@Nullable node: TreeNode<T>?, @NotNull value: T): TreeNode<T>?{
         if(node == null)
             return null
 
@@ -118,7 +116,7 @@ class BinarySearchTree<T: Comparable<T>> {
 
     @Nullable
     @Throws(IndexOutOfBoundsException::class)
-    private fun removeAt(@Nullable node: Node<T>?, index: Int, count: Int = 0): Node<T>?{
+    private fun removeAt(@Nullable node: TreeNode<T>?, index: Int, count: Int = 0): TreeNode<T>?{
         if(node == null)
             throw IndexOutOfBoundsException()
 
@@ -155,7 +153,7 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @NotNull
-    private fun findReplacement(@NotNull node: Node<T>): Node<T>{
+    private fun findReplacement(@NotNull node: TreeNode<T>): TreeNode<T>{
         var curr = node
 
         while(curr.left != null){
@@ -172,7 +170,7 @@ class BinarySearchTree<T: Comparable<T>> {
         return -1
     }
 
-    private fun indexOf(@NotNull node: Node<T>?, @NotNull value: T): Int{
+    private fun indexOf(@NotNull node: TreeNode<T>?, @NotNull value: T): Int{
         if(node == null){
             return -1
         }
@@ -194,7 +192,7 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @Nullable
-    private fun retainAll(@Nullable node: Node<T>?, @NotNull values: Collection<T>): Node<T>?{
+    private fun retainAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): TreeNode<T>?{
         if(node == null)
             return null
 
@@ -232,7 +230,7 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     @Throws(IndexOutOfBoundsException::class)
-    private fun set(@Nullable node: Node<T>?, index: Int, @NotNull value: T, count: Int = 0){
+    private fun set(@Nullable node: TreeNode<T>?, index: Int, @NotNull value: T, count: Int = 0){
         if(node == null)
             throw IndexOutOfBoundsException()
 
@@ -263,7 +261,7 @@ class BinarySearchTree<T: Comparable<T>> {
 
     @Nullable
     @Throws(IndexOutOfBoundsException::class)
-    private fun get(@Nullable node: Node<T>?, index: Int, count: Int = 0, @NotNull wrapper: ValueWrapper<T> = ValueWrapper<T>()): T?{
+    private fun get(@Nullable node: TreeNode<T>?, index: Int, count: Int = 0, @NotNull wrapper: ValueWrapper<T> = ValueWrapper<T>()): T?{
         if(node == null)
             throw IndexOutOfBoundsException()
 
@@ -288,7 +286,7 @@ class BinarySearchTree<T: Comparable<T>> {
     fun inOrderTraversal(): List<T> = inOrderTraversal(root)
 
     @NotNull
-    private fun inOrderTraversal(@Nullable node: Node<T>?, @NotNull list: ArrayList<T> = ArrayList<T>()): List<T>{
+    private fun inOrderTraversal(@Nullable node: TreeNode<T>?, @NotNull list: ArrayList<T> = ArrayList<T>()): List<T>{
         if (node != null) {
             if(node.left != null)
                 inOrderTraversal(node.left!!, list)
@@ -313,7 +311,7 @@ class BinarySearchTree<T: Comparable<T>> {
     @NotNull
     fun preOrderTraversal(): List<T> = preOrderTraversal(root)
 
-    private fun preOrderTraversal(@Nullable node: Node<T>?, @NotNull values: ArrayList<T> = ArrayList<T>()): List<T>{
+    private fun preOrderTraversal(@Nullable node: TreeNode<T>?, @NotNull values: ArrayList<T> = ArrayList<T>()): List<T>{
         if(node != null)
             values.add(node.value)
 
@@ -329,7 +327,7 @@ class BinarySearchTree<T: Comparable<T>> {
     @NotNull
     fun postOrderTraversal(): List<T> = postOrderTraversal(root)
 
-    private fun postOrderTraversal(@Nullable node: Node<T>?, @NotNull values: ArrayList<T> = ArrayList<T>()): List<T>{
+    private fun postOrderTraversal(@Nullable node: TreeNode<T>?, @NotNull values: ArrayList<T> = ArrayList<T>()): List<T>{
         if(node?.left != null)
             postOrderTraversal(node.left, values)
 
