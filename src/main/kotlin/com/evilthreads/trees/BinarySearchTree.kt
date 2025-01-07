@@ -139,9 +139,7 @@ class BinarySearchTree<T: Comparable<T>> {
 
                 return node
             }
-        }
-
-        if(count < index){
+        }else if(count < index){
             if(node.left != null)
                 node.left = removeAt(node.left, index, ++count)
 

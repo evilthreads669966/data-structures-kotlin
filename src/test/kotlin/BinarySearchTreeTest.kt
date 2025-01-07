@@ -26,6 +26,10 @@ class BinarySearchTreeTest {
     @Test
     fun testContains(){
         assertTrue(tree.contains(4))
+        assertTrue(tree.contains(3))
+        assertTrue(tree.contains(2))
+        assertTrue(tree.contains(5))
+        assertTrue(tree.contains(6))
         assertFalse(tree.contains(7))
     }
 
