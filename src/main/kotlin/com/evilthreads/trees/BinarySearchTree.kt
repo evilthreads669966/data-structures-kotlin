@@ -96,8 +96,7 @@ class BinarySearchTree<T: Comparable<T>> {
             else if(node.right == null)
                 return node.left
             else{
-                val replacement = findReplacement(node.right!!)
-                node.value = replacement.value
+                node.value = min(node.right!!)
                 node.right = remove(node.right, node.value)
             }
         }
@@ -133,8 +132,7 @@ class BinarySearchTree<T: Comparable<T>> {
             else if(node.right == null)
                 return node.left
             else{
-                val replacement = findReplacement(node.right!!)
-                node.value = replacement.value
+                node.value =  min(node.right!!)
                 node.right = remove(node.right, node.value)
 
                 return node
@@ -148,17 +146,6 @@ class BinarySearchTree<T: Comparable<T>> {
         }
 
         return node
-    }
-
-    @NotNull
-    private fun findReplacement(@NotNull node: TreeNode<T>): TreeNode<T>{
-        var curr = node
-
-        while(curr.left != null){
-            curr = curr.left!!
-        }
-
-        return curr
     }
 
     fun indexOf(@NotNull value: T): Int{
@@ -208,8 +195,7 @@ class BinarySearchTree<T: Comparable<T>> {
             else if(node.right == null)
                 return node.left
             else{
-                val replacement = findReplacement(node.right!!)
-                node.value = replacement.value
+                node.value = min(node.right!!)
                 node.right = remove(node.right, node.value)
 
                 return node
