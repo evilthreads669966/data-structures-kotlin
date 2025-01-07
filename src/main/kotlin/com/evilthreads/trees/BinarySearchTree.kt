@@ -351,13 +351,3 @@ class BinarySearchTree<T: Comparable<T>> {
 }
 
 data class ValueWrapper<T>(@Nullable var value: T? = null)
-
-fun main(){
-    val tree = BinarySearchTree<Int>()
-    tree.insert(1)
-    tree.insert(2)
-    tree.insert(3)
-    tree.insert(4)
-
-    tree.preOrderTraversal().forEach { println(it) }
-}
