@@ -117,4 +117,11 @@ class BinarySearchTreeTest {
         tree.clear()
         assertEquals(0, tree.size)
     }
+
+    @Test
+    fun testRemoveAll(){
+        val values = listOf(2,5,6,3)
+        tree.removeAll(values)
+        values.forEach { assertFalse(tree.contains(it)) }
+    }
 }

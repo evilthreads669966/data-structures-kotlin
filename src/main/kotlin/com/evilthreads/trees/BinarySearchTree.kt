@@ -148,6 +148,38 @@ class BinarySearchTree<T: Comparable<T>> {
         return node
     }
 
+    fun removeAll(@NotNull values: Collection<T>){
+        removeAll(root, values)
+    }
+
+    private fun removeAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): TreeNode<T>?{
+        if(node == null)
+            return null
+
+        if(node.left != null){
+            node.left = removeAll(node.left, values)
+        }
+
+        if(node.right != null){
+            node.right = removeAll(node.right, values)
+        }
+
+        if(values.contains(node.value)) {
+            if (node.left == null && node.right == null)
+                return null
+            else if(node.left == null)
+                return node.right
+            else if(node.right == null)
+                return node.left
+            else{
+                node.value = min(node.right!!)
+                node.right = remove(node.right, node.value)
+            }
+        }
+
+        return node
+    }
+
     fun indexOf(@NotNull value: T): Int{
         if(contains(value))
             return indexOf(root, value)
