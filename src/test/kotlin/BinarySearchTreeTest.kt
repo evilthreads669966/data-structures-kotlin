@@ -56,12 +56,10 @@ class BinarySearchTreeTest {
         tree.remove(5)
         assertFalse(tree.contains(5))
         assertEquals(5, tree.size)
-        tree.inOrderTraversal().forEach { println(it) }
     }
 
     @Test
     fun testIndexOf(){
-        tree.inOrderTraversal().forEach { println(it) }
         assertEquals(0, tree.indexOf(3))
         assertEquals(1, tree.indexOf(1))
         assertEquals(2, tree.indexOf(2))
