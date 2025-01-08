@@ -34,6 +34,14 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    fun testContainsAll(){
+        val values = mutableListOf(2,4,6)
+        assertTrue(tree.containsAll(values))
+        values.add(10)
+        assertFalse(tree.containsAll(values))
+    }
+
+    @Test
     fun testMax(){
         assertEquals(6, tree.max())
         tree.insert(10)

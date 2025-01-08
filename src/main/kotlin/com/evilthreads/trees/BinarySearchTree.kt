@@ -45,6 +45,17 @@ class BinarySearchTree<T: Comparable<T>> {
             return contains(node.right, value)
     }
 
+    fun containsAll(@NotNull values: Collection<T>): Boolean = containsAll(root, values)
+
+    private fun containsAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>, count: Int = 0): Boolean{
+        values.forEach { value ->
+            if(!contains(value))
+                return false
+        }
+
+        return true
+    }
+
     @NotNull
     @Throws(NoSuchElementException::class)
     fun max(): T{
