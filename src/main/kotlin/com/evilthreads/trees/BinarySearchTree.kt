@@ -79,6 +79,13 @@ class BinarySearchTree<T: Comparable<T>> {
         return min(node.left!!)
     }
 
+    fun remove(@NotNull value: T){
+        if(root != null){
+            root = remove(root,value)
+            _size--
+        }
+    }
+
     @Nullable
     private fun remove(@Nullable node: TreeNode<T>?, @NotNull value: T): TreeNode<T>?{
         if(node == null)
@@ -148,8 +155,12 @@ class BinarySearchTree<T: Comparable<T>> {
         return node
     }
 
-    fun removeAll(@NotNull values: Collection<T>){
+    fun removeAll(@NotNull values: Collection<T>): Boolean{
+        val oldSize = _size
         removeAll(root, values)
+        if(_size < oldSize)
+            return true
+        else return false
     }
 
     private fun removeAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): TreeNode<T>?{
@@ -165,6 +176,7 @@ class BinarySearchTree<T: Comparable<T>> {
         }
 
         if(values.contains(node.value)) {
+            _size--
             if (node.left == null && node.right == null)
                 return null
             else if(node.left == null)
@@ -220,6 +232,7 @@ class BinarySearchTree<T: Comparable<T>> {
             node.right = retainAll(node.right, values)
 
         if(!values.contains(node.value)){
+            _size--
             if(node.left == null && node.right == null)
                 return null
             else if(node.left == null)
@@ -314,14 +327,6 @@ class BinarySearchTree<T: Comparable<T>> {
         }
 
         return list
-    }
-
-    fun remove(@NotNull value: T){
-        if(root != null){
-            root = remove(root,value)
-            _size--
-        }
-
     }
 
     @NotNull

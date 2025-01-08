@@ -90,6 +90,7 @@ class BinarySearchTreeTest {
         val values = listOf(2,5,6)
         tree.retainAll(values)
         assertEquals(values, tree.inOrderTraversal())
+        assertEquals(values.size, tree.size)
     }
 
     @Test
@@ -114,6 +115,8 @@ class BinarySearchTreeTest {
         assertEquals(6, tree.size)
         tree.removeAt(2)
         assertEquals(5, tree.size)
+        tree.removeAll(listOf(4,7))
+        assertEquals(3, tree.size)
         tree.clear()
         assertEquals(0, tree.size)
     }
