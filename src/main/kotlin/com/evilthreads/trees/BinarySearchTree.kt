@@ -45,15 +45,31 @@ class BinarySearchTree<T: Comparable<T>> {
             return contains(node.right, value)
     }
 
-    fun containsAll(@NotNull values: Collection<T>): Boolean = containsAll(root, values)
+    fun containsAll(@NotNull values: Collection<T>): Boolean{
+        if(containsAll(root, values) == values.size)
+            return true
+        return false
+    }
 
-    private fun containsAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>, count: Int = 0): Boolean{
-        values.forEach { value ->
-            if(!contains(value))
-                return false
-        }
+    private fun containsAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): Int{
+        if(node == null)
+            return 0
+    
+        var count = 0
 
-        return true
+        if(count == values.size)
+            return count
+
+        if(node.left != null && count < values.size)
+            count +=  containsAll(node.left, values)
+
+        if(node.right != null && count < values.size)
+            count +=  containsAll(node.right, values)
+
+        if(values.contains(node.value))
+            ++count
+
+        return count
     }
 
     @NotNull
