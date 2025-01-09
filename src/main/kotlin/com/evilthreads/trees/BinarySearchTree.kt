@@ -108,9 +108,9 @@ class BinarySearchTree<T: Comparable<T>> {
         if(node == null)
             return null
 
-        if(value < node.value)
+        if(value < node.value && node.left != null)
             node.left = remove(node.left, value, valueRemoved)
-        else if(value > node.value)
+        else if(value > node.value && node.right != null)
             node.right = remove(node.right, value, valueRemoved)
         else{
             if(!valueRemoved)
