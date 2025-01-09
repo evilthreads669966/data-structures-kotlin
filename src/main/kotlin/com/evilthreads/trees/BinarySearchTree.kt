@@ -139,8 +139,11 @@ class BinarySearchTree<T: Comparable<T>> {
     @Nullable
     @Throws(IndexOutOfBoundsException::class)
     private fun removeAt(@Nullable node: TreeNode<T>?, index: Int, count: Int = 0): TreeNode<T>?{
-        if(node == null || index < 0 || index >= _size)
+        if(index < 0 || index >= _size)
             throw IndexOutOfBoundsException()
+
+        if(node == null)
+            return null
 
         var count = count
 
