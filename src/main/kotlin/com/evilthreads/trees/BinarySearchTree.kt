@@ -137,7 +137,6 @@ class BinarySearchTree<T: Comparable<T>> {
             throw IndexOutOfBoundsException()
 
         removeAt(root, index)
-        _size--
     }
 
     @Nullable
@@ -152,19 +151,10 @@ class BinarySearchTree<T: Comparable<T>> {
             count++
 
         if(count == index){
-            if(node.left == null && node.right == null)
-                return null
-            else if(node.left == null)
-                return node.right
-            else if(node.right == null)
-                return node.left
-            else{
-                node.value =  min(node.right!!)
-                node.right = remove(node.right, node.value)
-
-                return node
-            }
-        }else if(count < index){
+            _size--
+            return remove(node, node.value)
+        }
+        else if(count < index){
             if(node.left != null)
                 node.left = removeAt(node.left, index, ++count)
 
@@ -195,18 +185,9 @@ class BinarySearchTree<T: Comparable<T>> {
             node.right = removeAll(node.right, values)
         }
 
-        if(values.contains(node.value)) {
+        if(values.contains(node.value)){
             _size--
-            if (node.left == null && node.right == null)
-                return null
-            else if(node.left == null)
-                return node.right
-            else if(node.right == null)
-                return node.left
-            else{
-                node.value = min(node.right!!)
-                node.right = remove(node.right, node.value)
-            }
+            return remove(node, node.value)
         }
 
         return node
@@ -253,18 +234,7 @@ class BinarySearchTree<T: Comparable<T>> {
 
         if(!values.contains(node.value)){
             _size--
-            if(node.left == null && node.right == null)
-                return null
-            else if(node.left == null)
-                return node.right
-            else if(node.right == null)
-                return node.left
-            else{
-                node.value = min(node.right!!)
-                node.right = remove(node.right, node.value)
-
-                return node
-            }
+            return remove(node, node.value)
         }
 
         return node
