@@ -108,9 +108,9 @@ class BinarySearchTree<T: Comparable<T>> {
         if(node == null)
             return null
 
-        if(value < node.value && node.left != null)
+        if(value < node.value)
             node.left = remove(node.left, value, valueRemoved)
-        else if(value > node.value && node.right != null)
+        else if(value > node.value)
             node.right = remove(node.right, value, valueRemoved)
         else{
             if(!valueRemoved)
@@ -133,16 +133,13 @@ class BinarySearchTree<T: Comparable<T>> {
 
     @Throws(IndexOutOfBoundsException::class)
     fun removeAt(index: Int){
-        if(index < 0 || index >= _size)
-            throw IndexOutOfBoundsException()
-
         removeAt(root, index)
     }
 
     @Nullable
     @Throws(IndexOutOfBoundsException::class)
     private fun removeAt(@Nullable node: TreeNode<T>?, index: Int, count: Int = 0): TreeNode<T>?{
-        if(node == null)
+        if(node == null || index < 0 || index >= _size)
             throw IndexOutOfBoundsException()
 
         var count = count
@@ -152,8 +149,7 @@ class BinarySearchTree<T: Comparable<T>> {
 
         if(count == index){
             return remove(node, node.value)
-        }
-        else if(count < index){
+        }else if(count < index){
             if(node.left != null)
                 node.left = removeAt(node.left, index, ++count)
 
@@ -235,31 +231,8 @@ class BinarySearchTree<T: Comparable<T>> {
 
     @Throws(IndexOutOfBoundsException::class)
     fun set(index: Int, @NotNull value: T){
-        if(index < 0 || index >= _size)
-            throw IndexOutOfBoundsException()
-
-        set(root, index, value)
-    }
-
-    @Throws(IndexOutOfBoundsException::class)
-    private fun set(@Nullable node: TreeNode<T>?, index: Int, @NotNull value: T, count: Int = 0){
-        if(node == null)
-            throw IndexOutOfBoundsException()
-
-        var count = count
-
-        if(root!!.right == node && root!!.left != null)
-            count++
-
-        if(count < index){
-            if(node.left != null)
-                set(node.left, index, value, ++count)
-
-            if(node.right != null)
-                set(node.right, index, value, ++count)
-        }else if(count == index){
-            node.value = value
-        }
+        removeAt(index)
+        insert(value)
     }
 
     @NotNull

@@ -84,9 +84,9 @@ class BinarySearchTreeTest {
         index = tree.indexOf(6)
         tree.removeAt(index)
         assertFalse(tree.contains(6))
-        index = tree.indexOf(2)
+        index = tree.indexOf(5)
         tree.removeAt(index)
-        assertFalse(tree.contains(2))
+        assertFalse(tree.contains(5))
 
         assertThrows(IndexOutOfBoundsException::class.java) { tree.removeAt(tree.size) }
     }
@@ -109,7 +109,8 @@ class BinarySearchTreeTest {
     fun testSet(){
         val index = tree.indexOf(4)
         tree.set(index, 10)
-        assertEquals(10, tree.get(index))
+        assertTrue(tree.contains(10))
+        assertFalse(tree.contains(4))
     }
 
     @Test
