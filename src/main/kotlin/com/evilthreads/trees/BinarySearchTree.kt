@@ -100,22 +100,22 @@ class BinarySearchTree<T: Comparable<T>> {
     }
 
     fun remove(@NotNull value: T){
-        if(root != null){
-            root = remove(root,value)
-            _size--
-        }
+        root = remove(root,value)
     }
 
     @Nullable
-    private fun remove(@Nullable node: TreeNode<T>?, @NotNull value: T): TreeNode<T>?{
+    private fun remove(@Nullable node: TreeNode<T>?, @NotNull value: T, valueRemoved: Boolean = false): TreeNode<T>?{
         if(node == null)
             return null
 
         if(value < node.value)
-            node.left = remove(node.left, value)
+            node.left = remove(node.left, value, valueRemoved)
         else if(value > node.value)
-            node.right = remove(node.right, value)
+            node.right = remove(node.right, value, valueRemoved)
         else{
+            if(!valueRemoved)
+                _size--
+
             if(node.left == null && node.right == null)
                 return null
             else if(node.left == null)
@@ -124,7 +124,7 @@ class BinarySearchTree<T: Comparable<T>> {
                 return node.left
             else{
                 node.value = min(node.right!!)
-                node.right = remove(node.right, node.value)
+                node.right = remove(node.right, node.value, true)
             }
         }
 
@@ -151,7 +151,6 @@ class BinarySearchTree<T: Comparable<T>> {
             count++
 
         if(count == index){
-            _size--
             return remove(node, node.value)
         }
         else if(count < index){
@@ -170,7 +169,7 @@ class BinarySearchTree<T: Comparable<T>> {
         removeAll(root, values)
         if(_size < oldSize)
             return true
-        else return false
+        return false
     }
 
     private fun removeAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): TreeNode<T>?{
@@ -186,7 +185,6 @@ class BinarySearchTree<T: Comparable<T>> {
         }
 
         if(values.contains(node.value)){
-            _size--
             return remove(node, node.value)
         }
 
@@ -233,7 +231,6 @@ class BinarySearchTree<T: Comparable<T>> {
             node.right = retainAll(node.right, values)
 
         if(!values.contains(node.value)){
-            _size--
             return remove(node, node.value)
         }
 
