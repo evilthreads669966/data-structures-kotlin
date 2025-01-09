@@ -223,11 +223,8 @@ class BinarySearchTree<T: Comparable<T>> {
         if(node == null)
             return null
 
-        if(node.left != null)
-            node.left = retainAll(node.left, values)
-
-        if(node.right != null)
-            node.right = retainAll(node.right, values)
+        node.left = retainAll(node.left, values)
+        node.right = retainAll(node.right, values)
 
         if(!values.contains(node.value)){
             return remove(node, node.value)
