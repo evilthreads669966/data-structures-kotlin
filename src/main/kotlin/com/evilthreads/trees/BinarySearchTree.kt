@@ -48,12 +48,9 @@ class BinarySearchTree<T: Comparable<T>> {
     fun containsAll(@NotNull values: Collection<T>): Boolean = containsAll(root, values) == values.size
 
     private fun containsAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): Int{
-        if(node == null)
-            return 0
-
         var count = 0
 
-        if(count == values.size)
+        if(node == null || count == values.size)
             return count
 
         if(node.left != null)
