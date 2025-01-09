@@ -167,9 +167,8 @@ class BinarySearchTree<T: Comparable<T>> {
     fun removeAll(@NotNull values: Collection<T>): Boolean{
         val oldSize = _size
         removeAll(root, values)
-        if(_size < oldSize)
-            return true
-        return false
+
+        return _size < oldSize
     }
 
     private fun removeAll(@Nullable node: TreeNode<T>?, @NotNull values: Collection<T>): TreeNode<T>?{
